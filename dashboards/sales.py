@@ -31,8 +31,6 @@ def create_sales_app(server):
         if not os.path.exists(file_path):
             os.makedirs('data', exist_ok= True)
 
-            load_dotenv()
-            
             api= KaggleApi()
             api.authenticate()
 
