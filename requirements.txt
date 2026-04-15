@@ -5,4 +5,3 @@ plotly-express>=0.4.1
 kaggle>=1.7.4.5
 flask
 gunicorn
-python-dotenv>=1.2.2
