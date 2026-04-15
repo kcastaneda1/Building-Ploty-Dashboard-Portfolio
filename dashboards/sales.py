@@ -6,6 +6,7 @@ from dash import Dash, dcc, html, dash_table
 import plotly.express as px
 import plotly.graph_objects as go
 from datetime import timedelta
+from dotenv import load_dotenv
 import os
 
 def create_sales_app(server):
@@ -30,6 +31,8 @@ def create_sales_app(server):
         if not os.path.exists(file_path):
             os.makedirs('data', exist_ok= True)
 
+            load_dotenv()
+            
             api= KaggleApi()
             api.authenticate()
 
