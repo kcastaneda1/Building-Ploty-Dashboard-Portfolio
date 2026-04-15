@@ -8,14 +8,14 @@ import plotly.graph_objects as go
 from datetime import timedelta
 import os
 
+cached_df = None
+
 def create_sales_app(server):
     app = Dash(
         __name__,
         server = server,
         url_base_pathname="/sales/"
     )
-
-    cached_df = None
 
     def get_clean_data():
         global cached_df
