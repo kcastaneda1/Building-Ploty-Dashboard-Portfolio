@@ -6,9 +6,8 @@ from dash import Dash, dcc, html, dash_table
 import plotly.express as px
 import plotly.graph_objects as go
 from datetime import timedelta
-import os
+from load_data.data_loader import get_data
 
-cached_df = None
 
 def create_sales_app(server):
     app = Dash(
@@ -16,55 +15,6 @@ def create_sales_app(server):
         server = server,
         url_base_pathname="/sales/"
     )
-
-    def get_clean_data():
-        global cached_df
-
-        if cached_df is not None:
-            return cached_df 
-        
-        from kaggle.api.kaggle_api_extended import KaggleApi
-
-        file_path = "data/retail_sales.csv"
-
-        if not os.path.exists(file_path):
-            os.makedirs('data', exist_ok= True)
-
-            api= KaggleApi()
-            api.authenticate()
-
-            api.dataset_download_files(
-                "dhrubangtalukdar/store-item-demand-forecasting-dataset",
-                path="data",
-                unzip=True
-                )  
-        
-        #read csv file
-        df = pd.read_csv(file_path)
-
-
-        # change columns to their right data type
-        df["date"] = pd.to_datetime(df['date'])
-
-        # change object columns to numerical
-        cols_to_num = ['sales','price','promo','weekday','month']
-
-        df[cols_to_num] = df[cols_to_num].apply(pd.to_numeric, errors = 'coerce')
-
-        # change object columns to string 
-        df[['store_id', 'item_id']] = df[['store_id','item_id']].fillna("").astype(str)
-
-        # create a total sales column
-        df['total_sales'] = df['sales'] * df['price']
-
-        # create a year column
-        df['year'] = df['date'].dt.year
-
-        cached_df = df
-        return df
-
-    #get data
-    retail_sales_df = get_clean_data()
 
     KPI_STYLE = {
         "background": "linear-gradient(135deg, #1f2937, #111827)",
@@ -88,10 +38,12 @@ def create_sales_app(server):
             margin=dict(l=40, r=40, t=50, b=40)
         )
         return fig
+    
+    df  = get_data()
 
-    stores = retail_sales_df['store_id'].unique()
+    stores = df['store_id'].unique()
 
-    grouped_sales = retail_sales_df.groupby(['date', 'store_id','item_id'])['total_sales'].sum().reset_index()
+    grouped_sales = df.groupby(['date', 'store_id','item_id'])['total_sales'].sum().reset_index()
 
     app.layout = html.Div([
         html.H1('Retail Sales Dashboard', 
@@ -223,7 +175,8 @@ def create_sales_app(server):
 
 
     def update_dashboards(selected_store):
-        df_store = grouped_sales[grouped_sales['store_id'].isin(selected_store)]
+        df = get_data()
+        df_store = df[grouped_sales['store_id'].isin(selected_store)]
         
         items = df_store['item_id'].unique()
         
@@ -267,6 +220,9 @@ def create_sales_app(server):
         if isinstance(stores,str):
             stores = [stores]
             
+        df = get_data()
+        grouped_sales = df.groupby(['date', 'store_id','item_id'])['total_sales'].sum().reset_index() 
+        
         df_filtered_store = grouped_sales[grouped_sales['store_id'].isin(stores)]
             
         # item filter
