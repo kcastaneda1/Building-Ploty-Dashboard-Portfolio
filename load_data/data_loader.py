@@ -4,20 +4,27 @@ from functools import lru_cache
 from kaggle.api.kaggle_api_extended import KaggleApi
 
 DATA_PATH = "data/retail_sales.csv"
+PARQUET_PATH = "data/retail_sales.parquet"
 
 def ensure_data_exists():
-    if os.path.exists(DATA_PATH):
+    if os.path.exists(DATA_PATH) or os.path.exists(PARQUET_PATH):
         return
 
     os.makedirs("data", exist_ok=True)
 
     api = KaggleApi()
     api.authenticate()
-    api.dataset_download_files("your-dataset", path="data", unzip=True)
+    api.dataset_download_files("dhrubangtalukdar/store-item-demand-forecasting-dataset", path="data", unzip=True)
 
 @lru_cache(maxsize=1)
 def get_data():
     ensure_data_exists()
+    
+    if os.path.exists(PARQUET_PATH):
+        df = pd.read_parquet(PARQUET_PATH)
+    else: 
+        df = pd.read_csv(DATA_PATH)
+        return pd.read_parquet(PARQUET_PATH)
     
     df = pd.read_csv(DATA_PATH)
 
@@ -38,4 +45,9 @@ def get_data():
     # create a year column
     df['year'] = df['date'].dt.year
 
+    df['store_id'] = df['store_id'].astype('category')
+    df['item_id'] = df['item_id'].astype('category')
+
+    df.to_parquet(PARQUET_PATH, index=False)
+    
     return df
