@@ -2,6 +2,7 @@ import os
 import pandas as pd
 from functools import lru_cache
 from kaggle.api.kaggle_api_extended import KaggleApi
+import pyarrow
 
 DATA_PATH = "data/retail_sales.csv"
 PARQUET_PATH = "data/retail_sales.parquet"
@@ -49,5 +50,5 @@ def get_data():
     df['item_id'] = df['item_id'].astype('category')
 
     df.to_parquet(PARQUET_PATH, index=False)
-    
+
     return df
