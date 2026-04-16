@@ -15,7 +15,7 @@ def ensure_data_exists():
     api.authenticate()
     api.dataset_download_files("your-dataset", path="data", unzip=True)
 
-#@lru_cache(maxsize=1)
+@lru_cache(maxsize=1)
 def get_data():
     ensure_data_exists()
     
