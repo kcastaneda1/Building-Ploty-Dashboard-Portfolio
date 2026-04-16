@@ -40,9 +40,7 @@ def create_sales_app(server):
         return fig
     
     df  = get_data()
-
     stores = df['store_id'].unique()
-
     grouped_sales = df.groupby(['date', 'store_id','item_id'])['total_sales'].sum().reset_index()
 
     app.layout = html.Div([
