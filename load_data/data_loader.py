@@ -8,23 +8,21 @@ DATA_PATH = "data/retail_sales.csv"
 PARQUET_PATH = "data/retail_sales.parquet"
 
 def ensure_data_exists():
-    if os.path.exists(DATA_PATH) or os.path.exists(PARQUET_PATH):
-        return
-
     os.makedirs("data", exist_ok=True)
 
-    api = KaggleApi()
-    api.authenticate()
-    api.dataset_download_files("dhrubangtalukdar/store-item-demand-forecasting-dataset", path="data", unzip=True)
+    if os.path.exists(PARQUET_PATH):
+        return
+
+    if not os.path.exists(DATA_PATH):
+        api = KaggleApi()
+        api.authenticate()
+        api.dataset_download_files("dhrubangtalukdar/store-item-demand-forecasting-dataset", path="data", unzip=True)
 
 @lru_cache(maxsize=1)
 def get_data():
     ensure_data_exists()
     
     if os.path.exists(PARQUET_PATH):
-        df = pd.read_parquet(PARQUET_PATH)
-    else: 
-        df = pd.read_csv(DATA_PATH)
         return pd.read_parquet(PARQUET_PATH)
     
     df = pd.read_csv(DATA_PATH)
