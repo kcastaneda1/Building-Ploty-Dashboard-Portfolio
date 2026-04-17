@@ -5,4 +5,4 @@ plotly-express>=0.4.1
 kaggle>=1.7.4.5
 flask
 gunicorn
-pyarrow
+duckdb>=1.4.4
