@@ -3,7 +3,8 @@ import duckdb
 DB_PATH = "data/retail_sales.duckdb"
 
 # Single shared connection (important for Dash/Gunicorn)
-con = duckdb.connect(DB_PATH, read_only=False)
+def get_connection():
+    return duckdb.connect(DB_PATH, read_only=False)
 
 
 # ----------------------------
