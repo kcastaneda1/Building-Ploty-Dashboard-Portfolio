@@ -6,7 +6,6 @@ DB_PATH = "data/retail_sales.duckdb"
 def get_connection():
     return duckdb.connect(DB_PATH, read_only=False)
 
-
 # ----------------------------
 # INIT DATABASE (RUN ONCE)
 # ----------------------------
@@ -20,11 +19,6 @@ def init_db():
             EXTRACT(YEAR FROM date) AS year
         FROM retail_sales;
     """)
-
-
-# run at import time (critical for Dash apps)
-init_db()
-
 
 # ----------------------------
 # MAIN DATA ACCESS
