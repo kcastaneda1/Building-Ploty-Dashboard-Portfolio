@@ -4,8 +4,10 @@ from functools import lru_cache
 from kaggle.api.kaggle_api_extended import KaggleApi
 import pyarrow
 
-DATA_PATH = "data/retail_sales.csv"
-PARQUET_PATH = "data/retail_sales.parquet"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+DATA_PATH = os.path.join(BASE_DIR, "data", "retail_sales.csv")
+PARQUET_PATH = os.path.join(BASE_DIR, "data", "retail_sales.parquet")
 
 def ensure_data_exists():
     os.makedirs("data", exist_ok=True)
@@ -17,6 +19,10 @@ def ensure_data_exists():
         api = KaggleApi()
         api.authenticate()
         api.dataset_download_files("dhrubangtalukdar/store-item-demand-forecasting-dataset", path="data", unzip=True)
+
+        print("BASE_DIR:", BASE_DIR)
+        print("CSV PATH:", DATA_PATH, os.path.exists(DATA_PATH))
+        print("PARQUET PATH:", PARQUET_PATH, os.path.exists(PARQUET_PATH))
 
 @lru_cache(maxsize=1)
 def get_data():
