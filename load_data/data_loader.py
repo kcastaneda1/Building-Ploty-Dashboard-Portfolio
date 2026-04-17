@@ -1,54 +1,99 @@
-import os
-import pandas as pd
-from functools import lru_cache
-from kaggle.api.kaggle_api_extended import KaggleApi
-import pyarrow
+import duckdb
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DB_PATH = "data/retail_sales.duckdb"
 
-DATA_PATH = os.path.join(BASE_DIR, "data", "retail_sales.csv")
-PARQUET_PATH = os.path.join(BASE_DIR, "data", "retail_sales.parquet")
+# Single shared connection (important for Dash/Gunicorn)
+con = duckdb.connect(DB_PATH, read_only=False)
 
-def ensure_data_exists():
-    os.makedirs("data", exist_ok=True)
 
-    if os.path.exists(PARQUET_PATH):
-        return
+# ----------------------------
+# INIT DATABASE (RUN ONCE)
+# ----------------------------
+def init_db():
+    con.execute("""
+        CREATE VIEW IF NOT EXISTS retail_sales_v AS
+        SELECT
+            *,
+            CAST(sales AS DOUBLE) * CAST(price AS DOUBLE) AS total_sales,
+            EXTRACT(YEAR FROM date) AS year
+        FROM retail_sales;
+    """)
 
-    if not os.path.exists(DATA_PATH):
-        api = KaggleApi()
-        api.authenticate()
-        api.dataset_download_files("dhrubangtalukdar/store-item-demand-forecasting-dataset", path="data", unzip=True)
 
-@lru_cache(maxsize=1)
+# run at import time (critical for Dash apps)
+init_db()
+
+
+# ----------------------------
+# MAIN DATA ACCESS
+# ----------------------------
 def get_data():
-    ensure_data_exists()
-    
-    if os.path.exists(PARQUET_PATH):
-        return pd.read_parquet(PARQUET_PATH)
-    
-    df = pd.read_csv(DATA_PATH)
+    return con.execute("SELECT * FROM retail_sales_v").df()
 
-    # change columns to their right data type
-    df["date"] = pd.to_datetime(df['date'])
 
-    # change object columns to numerical
-    cols_to_num = ['sales','price','promo','weekday','month']
+# ----------------------------
+# INITIAL FILTER VALUES
+# ----------------------------
+def get_initial_data():
+    return con.execute("""
+        SELECT DISTINCT store_id
+        FROM retail_sales
+        ORDER BY store_id
+    """).df()
 
-    df[cols_to_num] = df[cols_to_num].apply(pd.to_numeric, errors = 'coerce')
 
-    # change object columns to string 
-    df[['store_id', 'item_id']] = df[['store_id','item_id']].fillna("").astype(str)
+# ----------------------------
+# FILTERED QUERY
+# ----------------------------
+def get_filtered_sales(stores=None, items=None, start_date=None, end_date=None):
 
-    # create a total sales column
-    df['total_sales'] = df['sales'] * df['price']
+    query = """
+        SELECT
+            date,
+            store_id,
+            item_id,
+            SUM(total_sales) AS total_sales
+        FROM retail_sales_v
+        WHERE 1=1
+    """
 
-    # create a year column
-    df['year'] = df['date'].dt.year
+    params = []
 
-    df['store_id'] = df['store_id'].astype('category')
-    df['item_id'] = df['item_id'].astype('category')
+    if start_date and end_date:
+        query += " AND date BETWEEN ? AND ?"
+        params.extend([start_date, end_date])
 
-    df.to_parquet(PARQUET_PATH, index=False)
+    if stores:
+        query += f" AND store_id IN ({','.join(['?'] * len(stores))})"
+        params.extend(stores)
 
-    return df
+    if items:
+        query += f" AND item_id IN ({','.join(['?'] * len(items))})"
+        params.extend(items)
+
+    query += """
+        GROUP BY date, store_id, item_id
+        ORDER BY date
+    """
+
+    return con.execute(query, params).df()
+
+
+# ----------------------------
+# ITEM OPTIONS
+# ----------------------------
+def get_item_options(stores=None):
+
+    query = """
+        SELECT DISTINCT item_id
+        FROM retail_sales
+        WHERE 1=1
+    """
+
+    params = []
+
+    if stores:
+        query += f" AND store_id IN ({','.join(['?'] * len(stores))})"
+        params.extend(stores)
+
+    return con.execute(query, params).df()
