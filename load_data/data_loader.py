@@ -20,10 +20,6 @@ def ensure_data_exists():
         api.authenticate()
         api.dataset_download_files("dhrubangtalukdar/store-item-demand-forecasting-dataset", path="data", unzip=True)
 
-        print("BASE_DIR:", BASE_DIR)
-        print("CSV PATH:", DATA_PATH, os.path.exists(DATA_PATH))
-        print("PARQUET PATH:", PARQUET_PATH, os.path.exists(PARQUET_PATH))
-
 @lru_cache(maxsize=1)
 def get_data():
     ensure_data_exists()
