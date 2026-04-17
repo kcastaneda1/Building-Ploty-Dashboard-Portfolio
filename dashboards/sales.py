@@ -7,6 +7,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from datetime import timedelta
 from load_data.data_loader import get_data
+from functools import lru_cache
 
 
 def create_sales_app(server):
@@ -39,9 +40,22 @@ def create_sales_app(server):
         )
         return fig
     
-    df  = get_data()
-    stores = df['store_id'].unique()
-    grouped_sales = df.groupby(['date', 'store_id','item_id'])['total_sales'].sum().reset_index()
+    @lru_cache(maxsize=1)
+    def get_grouped_data():
+        df = get_data()
+        return df.groupby(
+            ['date', 'store_id', 'item_id'])['total_sales'].sum().reset_index()
+    
+    def get_initial_values():
+        df = get_data()
+        return {
+            "stores": df["store_id"].unique(),
+            'min_date':df['date'].min(),
+            'max_date': df['data'].max()
+
+        }
+    
+    init = get_initial_values()
 
     app.layout = html.Div([
         html.H1('Retail Sales Dashboard', 
@@ -58,7 +72,7 @@ def create_sales_app(server):
         html.Div([
             dcc.Dropdown(
                 id='store-dropdown',
-                options=[{'label': f" Store {s}", "value":s} for s in stores],
+                options=[{'label': f" Store {s}", "value":s} for s in init['stores']],
                 multi = True,
                 value = ['store_10'],
                 style = {
@@ -77,10 +91,10 @@ def create_sales_app(server):
             ),
             dcc.DatePickerRange(
                 id = 'date-range',
-                min_date_allowed = grouped_sales['date'].min(),
-                max_date_allowed = grouped_sales['date'].max(),
-                start_date = grouped_sales['date'].min(),
-                end_date = grouped_sales['date'].max(),
+                min_date_allowed = init['date'].min(),
+                max_date_allowed = init['date'].max(),
+                start_date = init['date'].min(),
+                end_date = init['date'].max(),
                 style = {
                     'backgroundColor':'#1f2937',
                     'color':'white',
@@ -173,10 +187,9 @@ def create_sales_app(server):
 
 
     def update_dashboards(selected_store):
-        df = get_data()
-        df_store = df[grouped_sales['store_id'].isin(selected_store)]
+        df = get_grouped_data()
         
-        items = df_store['item_id'].unique()
+        items = df['item_id'].unique()
         
         options = [
             {'label': f" Item {i}","value":i}
@@ -185,7 +198,7 @@ def create_sales_app(server):
         
         # Default: top 1 across selected stores
         top_items = (
-            df_store.groupby('item_id')['total_sales']
+            df.groupby('item_id')['total_sales']
             .sum()
             .nlargest(1)
             .index
@@ -218,17 +231,16 @@ def create_sales_app(server):
         if isinstance(stores,str):
             stores = [stores]
             
-        df = get_data()
-        grouped_sales = df.groupby(['date', 'store_id','item_id'])['total_sales'].sum().reset_index() 
+        df = get_grouped_data()
         
-        df_filtered_store = grouped_sales[grouped_sales['store_id'].isin(stores)]
+        df_filtered_store = df[df['store_id'].isin(stores)]
             
         # item filter
         if selected_items:
             df_filtered = df_filtered_store[df_filtered_store['item_id'].isin(selected_items)]
 
             df_filtered = df_filtered.copy()
-            df_filtered['date'] = pd.to_datetime(df_filtered['date'])
+            #df_filtered['date'] = pd.to_datetime(df_filtered['date'])
             start_date = pd.to_datetime(start_date)
             end_date = pd.to_datetime(end_date)
                 
