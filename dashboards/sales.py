@@ -44,18 +44,14 @@ def create_sales_app(server):
     def get_grouped_data():
         df = get_data()
         return df.groupby(
-            ['date', 'store_id', 'item_id'])['total_sales'].sum().reset_index()
+            ['date', 'store_id'])['total_sales'].sum().reset_index()
     
-    def get_initial_values():
-        df = get_data()
-        return {
-            "stores": df["store_id"].unique(),
-            'min_date':df['date'].min(),
-            'max_date': df['data'].max()
+    
+    df_init = get_data()
 
-        }
-    
-    init = get_initial_values()
+    stores = df_init['store_id'].unique()
+    min_date = df_init['date'].min()
+    max_date = df_init['date'].max()
 
     app.layout = html.Div([
         html.H1('Retail Sales Dashboard', 
@@ -72,7 +68,7 @@ def create_sales_app(server):
         html.Div([
             dcc.Dropdown(
                 id='store-dropdown',
-                options=[{'label': f" Store {s}", "value":s} for s in init['stores']],
+                options=[{'label': f" Store {s}", "value":s} for s in stores],
                 multi = True,
                 value = ['store_10'],
                 style = {
@@ -91,10 +87,10 @@ def create_sales_app(server):
             ),
             dcc.DatePickerRange(
                 id = 'date-range',
-                min_date_allowed = init['date'].min(),
-                max_date_allowed = init['date'].max(),
-                start_date = init['date'].min(),
-                end_date = init['date'].max(),
+                min_date_allowed = min_date,
+                max_date_allowed = max_date,
+                start_date = min_date,
+                end_date = max_date,
                 style = {
                     'backgroundColor':'#1f2937',
                     'color':'white',
@@ -187,7 +183,12 @@ def create_sales_app(server):
 
 
     def update_dashboards(selected_store):
-        df = get_grouped_data()
+        df = get_data()
+
+        if isinstance(selected_store, str):
+            selected_store = [selected_store]
+
+        df = df[df['store_id'].isin(selected_store)]    
         
         items = df['item_id'].unique()
         
@@ -231,7 +232,7 @@ def create_sales_app(server):
         if isinstance(stores,str):
             stores = [stores]
             
-        df = get_grouped_data()
+        df = get_data()
         
         df_filtered_store = df[df['store_id'].isin(stores)]
             
