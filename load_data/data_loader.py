@@ -11,6 +11,7 @@ def get_connection():
 # INIT DATABASE (RUN ONCE)
 # ----------------------------
 def init_db():
+    con = get_connection()
     con.execute("""
         CREATE VIEW IF NOT EXISTS retail_sales_v AS
         SELECT
@@ -29,6 +30,7 @@ init_db()
 # MAIN DATA ACCESS
 # ----------------------------
 def get_data():
+    con = get_connection()
     return con.execute("SELECT * FROM retail_sales_v").df()
 
 
@@ -36,6 +38,7 @@ def get_data():
 # INITIAL FILTER VALUES
 # ----------------------------
 def get_initial_data():
+    con = get_connection()
     return con.execute("""
         SELECT DISTINCT store_id
         FROM retail_sales
@@ -47,7 +50,7 @@ def get_initial_data():
 # FILTERED QUERY
 # ----------------------------
 def get_filtered_sales(stores=None, items=None, start_date=None, end_date=None):
-
+    con = get_connection()
     query = """
         SELECT
             date,
@@ -84,7 +87,7 @@ def get_filtered_sales(stores=None, items=None, start_date=None, end_date=None):
 # ITEM OPTIONS
 # ----------------------------
 def get_item_options(stores=None):
-
+    con = get_connection()
     query = """
         SELECT DISTINCT item_id
         FROM retail_sales
