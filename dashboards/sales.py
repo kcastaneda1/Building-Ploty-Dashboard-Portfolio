@@ -13,8 +13,6 @@ def create_sales_app(server):
         url_base_pathname="/sales/"
     )
 
-    con = get_connection()
-
     KPI_STYLE = {
         "background": "linear-gradient(135deg, #1f2937, #111827)",
         "color": "white",
@@ -34,6 +32,8 @@ def create_sales_app(server):
         )
         return fig
 
+    con = get_connection()
+    
     # -------------------------
     # INITIAL DATA (LIGHT QUERY)
     # -------------------------
