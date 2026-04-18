@@ -129,10 +129,10 @@ def create_sales_app(server):
                       'marginBottom':'30px'
                   }),
 
-        dash_table.DataTable(
-            id="summary-table",
-            columns=[{"name": "col1", "id": "col1"}],
-            data=[],)
+       # dash_table.DataTable(
+       #     id="summary-table",
+       #     columns=[{"name": "col1", "id": "col1"}],
+       #     data=[],)
     ])
 
     # -------------------------
@@ -172,8 +172,8 @@ def create_sales_app(server):
         Output('bar-chart', 'figure'),
         Output('pie-chart', 'figure'),
         Output('rolling-chart', 'figure'),
-        Output('summary-table', 'data'),
-        Output('summary-table', 'columns'),
+        #Output('summary-table', 'data'),
+        #Output('summary-table', 'columns'),
         Input('store-dropdown', 'value'),
         Input('item-dropdown', 'value'),
         Input('time-filter', 'value'),
@@ -241,8 +241,8 @@ def create_sales_app(server):
         rolling_fig = px.line(df, x='date', y='rolling_7', color='store_id')
 
         # table
-        table_df = df.groupby('store_id')['total_sales'].agg(['sum', 'mean', 'max', 'min']).reset_index()
-        table_df['rank'] = table_df['sum'].rank(ascending=False)
+        #table_df = df.groupby('store_id')['total_sales'].agg(['sum', 'mean', 'max', 'min']).reset_index()
+        #table_df['rank'] = table_df['sum'].rank(ascending=False)
 
         return (
             style_figure(line_fig),
@@ -252,9 +252,9 @@ def create_sales_app(server):
             html.Div([html.P("Top Store"), html.H2(top_store)], style=KPI_STYLE),
             style_figure(bar_fig),
             style_figure(pie_fig),
-            style_figure(rolling_fig),
-            table_df.to_dict('records'),
-            [{"name": col, "id": col} for col in table_df.columns]
+            style_figure(rolling_fig)
+            #table_df.to_dict('records'),
+            #[{"name": col, "id": col} for col in table_df.columns]
         )
 
     return app
