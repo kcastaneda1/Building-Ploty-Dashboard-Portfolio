@@ -97,7 +97,7 @@ project/
    - Time-series and categorical analysis
    - Dynamic Plotly visualizations
 
-![ATL TEXT] (Building-Plotly-Dashboard-Portfolio/static/sales_dashboard.png)
+![ATL TEXT] (static/sales_dashboard.png)
 
 ---
 
