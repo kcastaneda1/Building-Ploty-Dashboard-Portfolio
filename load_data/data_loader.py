@@ -8,7 +8,7 @@ DB_PATH = os.path.join(BASE_DIR, "data", "retail_sales.duckdb")
 
 # Single shared connection (important for Dash/Gunicorn)
 def get_connection():
-    return duckdb.connect(DB_PATH, read_only=False)
+    return duckdb.connect(DB_PATH, read_only=True)
 
 # ----------------------------
 # INIT DATABASE (RUN ONCE)
