@@ -85,24 +85,58 @@ def create_sales_app(server):
                 ],
                 value='ALL'
             )
-        ], style={'display': 'flex', 'gap': '20px', 'justifyContent': 'center'}),
+        ], style={
+            'display': 'flex', 
+            'gap':'20px',
+            'alignItems':'center',
+            'justifyContent':'center',
+            'marginBottom':'30px'
+        }),
 
         html.Div([
             html.Div(id='kpi-total-sales'),
             html.Div(id='kpi-avg-sales'),
             html.Div(id='kpi-store-count'),
             html.Div(id='kpi-top-store'),
-        ], style={'display': 'flex', 'gap': '20px'}),
+        ], style={
+            'display': 'flex',
+            'justifyContent':'center',
+            'gap':'20px',
+            'marginBottom': '30px',
+            'maxWidth':'1200px',
+            'marginLeft':'auto',
+            'marginRight':'auto'
+        }),
 
-        dcc.Graph(id='line-chart'),
+        dcc.Graph(
+            id='line-chart',
+            style ={
+                'display':'flex',
+                'marginBottom':'30px'
+            }),
+
         html.Div([
             dcc.Graph(id='bar-chart'),
             dcc.Graph(id='pie-chart')
-        ], style={'display': 'flex'}),
+        ], style={
+            'display': 'flex',
+            'gap':'20px',
+            'marginBottom':'30px'
+            }),
 
-        dcc.Graph(id='rolling-chart'),
+        dcc.Graph(id='rolling-chart',
+                  style = {
+                      'marginBottom':'30px'
+                  }),
 
-        dash_table.DataTable(id='summary-table')
+        dash_table.DataTable(
+            id='summary-table',
+            style = {
+                "backgroundColor":"#0f172a",
+                "minHeight": "20vh",
+                "padding":"30px",
+                "fontFamily":"Arial" 
+                })
     ])
 
     # -------------------------
