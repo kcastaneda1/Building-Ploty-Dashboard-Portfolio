@@ -127,7 +127,7 @@ def create_sales_app(server):
         dcc.Graph(id='rolling-chart',
                   style = {
                       'marginBottom':'30px'
-                  }),
+                  })
 
        # dash_table.DataTable(
        #     id="summary-table",
