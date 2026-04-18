@@ -136,7 +136,7 @@ def create_sales_app(server):
                 "minHeight": "20vh",
                 "padding":"30px",
                 "fontFamily":"Arial" 
-                })
+                },)
     ])
 
     # -------------------------
