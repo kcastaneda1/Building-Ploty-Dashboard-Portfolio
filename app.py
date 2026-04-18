@@ -13,7 +13,14 @@ server = Flask(
 # Home page
 @server.route("/")
 def home():
-    return render_template("index.html")
+    import os
+    return {
+        "cwd": os.getcwd(),
+        "template_folder": server.template_folder,
+        "index_exists": os.path.exists(
+            os.path.join(BASE_DIR, "templates", "index.html")
+        )
+    }
 
 # Attach Dash app
 create_sales_app(server)
