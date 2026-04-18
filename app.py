@@ -1,7 +1,14 @@
 from flask import Flask, render_template
 from dashboards.sales import create_sales_app
+import os
 
-server = Flask(__name__)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+server = Flask(
+    __name__,
+    template_folder=os.path.join(BASE_DIR, "templates"),
+    static_folder=os.path.join(BASE_DIR, "static")
+)
 
 # Home page
 @server.route("/")
