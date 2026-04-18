@@ -97,8 +97,6 @@ project/
    - Time-series and categorical analysis
    - Dynamic Plotly visualizations
 
-![image_alt]([static/images/sales_dashboard.png])
-
 ---
 
 ## ⚙️ Installation & Setup
