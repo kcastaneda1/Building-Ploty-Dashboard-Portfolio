@@ -130,8 +130,9 @@ def create_sales_app(server):
                   }),
 
         dash_table.DataTable(
-            id='summary-table'
-            )
+            id="summary-table",
+            columns=[{"name": "col1", "id": "col1"}],
+            data=[],)
     ])
 
     # -------------------------
