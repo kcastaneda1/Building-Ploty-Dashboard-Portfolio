@@ -3,7 +3,7 @@ import os
 
 import os
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB_PATH = os.path.join(BASE_DIR, "data", "retail_sales.duckdb")
 
 # Single shared connection (important for Dash/Gunicorn)
