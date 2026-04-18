@@ -33,7 +33,7 @@ def create_sales_app(server):
         return fig
 
     con = get_connection()
-    
+
     # -------------------------
     # INITIAL DATA (LIGHT QUERY)
     # -------------------------
@@ -130,13 +130,8 @@ def create_sales_app(server):
                   }),
 
         dash_table.DataTable(
-            id='summary-table',
-            style = {
-                "backgroundColor":"#0f172a",
-                "minHeight": "20vh",
-                "padding":"30px",
-                "fontFamily":"Arial" 
-                },)
+            id='summary-table'
+            )
     ])
 
     # -------------------------
