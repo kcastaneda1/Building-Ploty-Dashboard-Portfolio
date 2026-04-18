@@ -97,7 +97,7 @@ project/
    - Time-series and categorical analysis
    - Dynamic Plotly visualizations
 
-![] (static/images/sales_dashboard.png)
+![image_alt]([static/images/sales_dashboard.png](https://github.com/kcastaneda1/Building-Ploty-Dashboard-Portfolio/blob/main/static/images/sales_dashboard.png?raw=true))
 
 ---
 
