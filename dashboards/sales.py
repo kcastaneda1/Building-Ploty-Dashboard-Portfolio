@@ -28,7 +28,15 @@ def create_sales_app(server):
             plot_bgcolor="#020617",
             paper_bgcolor="#020617",
             font=dict(color="white"),
-            margin=dict(l=40, r=40, t=50, b=40)
+            margin=dict(l=40, r=40, t=50, b=40),
+            autosize = True,
+            legend = dict(
+                orientation = 'h',
+                y = 1.02,
+                h = 0.5,
+                xanchor = 'center',
+                yanchor = 'bottom'
+            )
         )
         return fig
 
@@ -112,22 +120,42 @@ def create_sales_app(server):
             id='line-chart',
             style ={
                 'display':'flex',
-                'marginBottom':'30px'
-            }),
+                'marginBottom':'30px',
+                "width":'100%',
+                'height':'40vh',
+                'mindwidth':'300px',   
+            },
+            config = {'responsive': True}),
 
         html.Div([
-            dcc.Graph(id='bar-chart'),
-            dcc.Graph(id='pie-chart')
+            dcc.Graph(
+                id='bar-chart',
+                style = {'flex':'1','mindwidth':0},
+                config = {'responsive':True}
+                ),
+            dcc.Graph(
+                id='pie-chart',
+                style = {'flex':'1', 'mindwidth':0},
+                config = {'responsive':True}
+                )
         ], style={
             'display': 'flex',
             'gap':'20px',
-            'marginBottom':'30px'
+            'marginBottom':'30px',
+            'width':'100%',
+            'height':'40vh',
+            'flexwrap':'wrap'
             }),
 
         dcc.Graph(id='rolling-chart',
                   style = {
-                      'marginBottom':'30px'
-                  })
+                      'marginBottom':'30px',
+                      'width':'100%',
+                      'height':'40vh',
+                      'flex': '1 1 500px',
+                      'mindwidth':'300px'
+                  },
+                  config = {'responsive':True})
 
        # dash_table.DataTable(
        #     id="summary-table",
