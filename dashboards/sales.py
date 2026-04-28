@@ -29,14 +29,7 @@ def create_sales_app(server):
             paper_bgcolor="#020617",
             font=dict(color="white"),
             margin=dict(l=40, r=40, t=50, b=40),
-            autosize = True,
-            legend = dict(
-                orientation = 'h',
-                y = 1.02,
-                h = 0.5,
-                xanchor = 'center',
-                yanchor = 'bottom'
-            )
+            autosize = True
         )
         return fig
 
