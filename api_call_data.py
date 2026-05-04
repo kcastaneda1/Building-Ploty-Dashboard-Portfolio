@@ -1,12 +1,10 @@
 from kaggle.api.kaggle_api_extended import KaggleApi
-from dotenv import load_dotenv
-import os
-
 api= KaggleApi()
 api.authenticate()
 
 DATA_PATH = 'data'
 
+import os
 if not os.path.exists(DATA_PATH):
     # download dataset only once
     api.dataset_download_files('nudratabbas/healthcare-fraud-detection-dataset'
