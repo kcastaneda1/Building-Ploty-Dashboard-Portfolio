@@ -10,7 +10,7 @@ api.authenticate()
 api.dataset_download_files("kaggle kernels pull robiulhasanjisan/fraud-detection-healthcare", path="./data")
 
 import zipfile
-zip_path = "./data/store-item-demand-forecasting-dataset.zip"
+zip_path = "./data/healthcare-fraud-detection-dataset.zip"
 
 with zipfile.ZipFile(zip_path, 'r') as zip_ref:
     zip_ref.extractall("./data")
