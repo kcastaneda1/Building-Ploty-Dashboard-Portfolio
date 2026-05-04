@@ -24,6 +24,8 @@ def init_db():
         FROM retail_sales;
     """)
 
+    con.close()
+
 # ----------------------------
 # MAIN DATA ACCESS
 # ----------------------------
