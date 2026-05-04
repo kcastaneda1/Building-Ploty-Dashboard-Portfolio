@@ -17,6 +17,8 @@ def init_db():
         '''
     )
 
+    con.close()
+
 
 #def get_data():
 #    con = get_connection_health()
