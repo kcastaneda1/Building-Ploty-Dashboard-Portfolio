@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 from dashboards.sales import create_sales_app
+from dashboards.healthcareapp import create_healthcare_app
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -17,6 +18,7 @@ def home():
 
 # Attach Dash app
 create_sales_app(server)
+create_healthcare_app(server)
 
 # Required for deployment
 app = server
