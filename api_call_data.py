@@ -1,4 +1,5 @@
 from kaggle.api.kaggle_api_extended import KaggleApi
+from dotenv import load_dotenv
 import os
 
 api= KaggleApi()
