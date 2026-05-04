@@ -6,12 +6,11 @@ from kaggle.api.kaggle_api_extended import KaggleApi
 api= KaggleApi()
 api.authenticate()
 
-DATA_PATH = 'data'
 
-import os
-if not os.path.exists(DATA_PATH):
-    # download dataset only once
-    api.dataset_download_files('nudratabbas/healthcare-fraud-detection-dataset'
-                               , path=DATA_PATH
-                               ,unzip=True
-    )
+api.dataset_download_files("dhrubangtalukdar/store-item-demand-forecasting-dataset", path="./data")
+
+import zipfile
+zip_path = "./data/store-item-demand-forecasting-dataset.zip"
+
+with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+    zip_ref.extractall("./data")
