@@ -7,9 +7,10 @@ api= KaggleApi()
 api.authenticate()
 
 
-api.dataset_download_files("kaggle kernels pull robiulhasanjisan/fraud-detection-healthcare", path="./data")
+api.dataset_download_files("robiulhasanjisan/fraud-detection-healthcare", path="./data")
 
 import zipfile
+
 zip_path = "./data/healthcare-fraud-detection-dataset.zip"
 
 with zipfile.ZipFile(zip_path, 'r') as zip_ref:
