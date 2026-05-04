@@ -7,7 +7,7 @@ from load_data.data_loader import get_connection
 
 
 def create_sales_app(server):
-    app = Dash(
+    dash_app = Dash(
         __name__,
         server=server,
         url_base_pathname="/sales/"
@@ -43,6 +43,8 @@ def create_sales_app(server):
         FROM retail_sales
     """).df()
 
+    con.close()
+
     stores = df_init['store_id'].unique()
     min_date = df_init['date'].min()
     max_date = df_init['date'].max()
@@ -50,7 +52,7 @@ def create_sales_app(server):
     # -------------------------
     # LAYOUT
     # -------------------------
-    app.layout = html.Div([
+    dash_app.layout = html.Div([
         html.H1('Retail Sales Dashboard',
                 style={
                     'textAlign': "center",
@@ -159,12 +161,13 @@ def create_sales_app(server):
     # -------------------------
     # ITEM DROPDOWN
     # -------------------------
-    @app.callback(
+    @dash_app.callback(
         Output('item-dropdown', 'options'),
         Output('item-dropdown', 'value'),
         Input('store-dropdown', 'value')
     )
     def update_items(selected_store):
+        con = get_connection()
 
         if isinstance(selected_store, str):
             selected_store = [selected_store]
@@ -175,6 +178,8 @@ def create_sales_app(server):
             WHERE store_id = ANY(?)
         """, [selected_store]).df()
 
+        con.close()
+
         items = df['item_id'].tolist()
 
         options = [{'label': f"Item {i}", 'value': i} for i in items]
@@ -184,7 +189,7 @@ def create_sales_app(server):
     # -------------------------
     # MAIN CALLBACK
     # -------------------------
-    @app.callback(
+    @dash_app.callback(
         Output('line-chart', 'figure'),
         Output('kpi-total-sales', 'children'),
         Output('kpi-avg-sales', 'children'),
@@ -202,6 +207,7 @@ def create_sales_app(server):
         Input('date-range', 'end_date'),
     )
     def update_graph(stores, items, time_filter, start_date, end_date):
+        con=get_connection()
 
         if isinstance(stores, str):
             stores = [stores]
@@ -223,9 +229,11 @@ def create_sales_app(server):
 
         df = con.execute(query, params).df()
 
+        con.close()
+
         if df.empty:
             empty_fig = px.line(title="No Data")
-            return empty_fig, "", "", "", "", empty_fig, empty_fig, empty_fig, [], []
+            return empty_fig, "", "", "", "", empty_fig, empty_fig, empty_fig
 
         # time filter
         if time_filter != "ALL":
@@ -278,4 +286,4 @@ def create_sales_app(server):
             #[{"name": col, "id": col} for col in table_df.columns]
         )
 
-    return app
+    return dash_app
