@@ -5,6 +5,7 @@ import plotly.graph_objects as go
 import plotly.express as px
 from datetime import timedelta
 from load_data.load_healthcare_data import get_connection_health
+from .components import navbar
 
 
 def create_healthcare_app(server):
@@ -47,7 +48,10 @@ def create_healthcare_app(server):
     frauds = df_init['Fraud_Category'].unique()
     min_date = df_init['Claim_Submission_Date'].min()
     max_date = df_init['Claim_Submission_Date'].max()
+
     dash_app.layout = html.Div([
+         navbar(),
+
          html.H1('HealthCare Dashboard',
                style={
                     'textAlign':'center',
