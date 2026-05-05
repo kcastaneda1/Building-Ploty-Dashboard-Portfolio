@@ -5,7 +5,6 @@ import plotly.graph_objects as go
 import plotly.express as px
 from datetime import timedelta
 from load_data.load_healthcare_data import get_connection_health
-from app import app
 
 
 def create_healthcare_app(server):
