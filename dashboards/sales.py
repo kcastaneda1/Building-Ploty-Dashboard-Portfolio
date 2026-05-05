@@ -4,6 +4,7 @@ from dash import Dash, dcc, html, dash_table
 import plotly.express as px
 from datetime import timedelta
 from load_data.data_loader import get_connection
+from .components import navbar
 
 
 def create_sales_app(server):
@@ -53,7 +54,9 @@ def create_sales_app(server):
     # LAYOUT
     # -------------------------
     dash_app.layout = html.Div([
-        html.H1('Retail Sales Dashboard',
+            navbar(),
+
+            html.H1('Retail Sales Dashboard',
                 style={
                     'textAlign': "center",
                     'color': 'white',
