@@ -1,94 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ken's - Data Portfolio</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom Styling -->
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .hero {
-            background: linear-gradient(135deg, #0d6efd, #0a58ca);
-            color: white;
-            padding: 80px 20px;
-            text-align: center;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            transition: 0.3s;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
-    </style>
-</head>
-<body>
-
-<!-- 🔷 NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="/">Ken's Dashboard</a>
-        <div>
-            <a class="btn btn-outline-light btn-sm" href="https://github.com/kcastaneda1" target="_blank">
-                GitHub
-            </a>
-        </div>
-    </div>
-</nav>
-
-<!-- 🔷 HERO SECTION -->
+{% extend "base.html %}
+{% block content %}
+<!-- HERO SECTION -->
 <section class="hero">
-    <div class="container">
-        <h1 class="display-4 fw-bold">Data Analytics Portfolio</h1>
-        <p class="lead mt-3">
-            Building interactive dashboards using Python, SQL, API and Plotly.
-        </p>
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1>Building Data Products that Driver Decisions</h1>
+            <p>Senior Business Intelligence Analyst specializign in Python, SQl and interactive 
+                analytics applications. 
+            </p>
+            <div class="her-button">
+                <a href="#portfolio" class="btn-primary">
+                    View Dashboards
+                </a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="{{ url_for('static, 'filename='imaes/') }}">
+        </div>
     </div>
 </section>
-
-<!-- 🔷 PROJECTS SECTION -->
-<div class="container my-5">
-    <h2 class="text-center mb-4">My Dashboards</h2>
-
-    <div class="row g-4">
-
-        <!-- 🔹 Project 1 -->
-        <div class="col-md-4">
-            <div class="card h-100">
-                <img src="/static/images/sales_dashboard.png" class="card-img-top" alt="Sales Dashboard">
-                <div class="card-body">
-                    <h5 class="card-title">Sales Dashboard</h5>
-                    <p class="card-text">
-                        Analyze revenue trends, product performance, and KPIs with interactive filters.
-                    </p>
-                    <a href="/sales/" class="btn btn-primary">View Dashboard</a>
-                </div>
-            </div>
+<!-- ABOUT SECTION -->
+<section id="about">
+    <h2>About Me</h2>
+    <p>
+        I am a Senior BI Analyst with 10+ years of experience building analytics solutions
+        acros various sectors such as healthcare, education, and operations
+    </p>
+    <div class="skills">
+        <div class="skill-card">
+            <h3>Python</h3>
+            <p>Pandas, Numpy, Plotly, Flask</p>
         </div>
-        <!-- 🔹 Project 2 -->
-        <div class="col-md-4">
-            <div class="card h-100">
-                <img src="/static/images/healthcare_dashboard.png" class="card-img-top" alt="Healthcare Dashboard">
-                <div class="card-body">
-                    <h5 class="card-title">Healthcare Dashboard</h5>
-                    <p class="card-text">
-                        Track financial performance between claims and approved amounts.
-                    </p>
-                    <a href="/healthcare/" class="btn btn-primary">View Dashboard</a>
-                </div>
-            </div>
-        </div>    
+        <div class="skill-card">
+            <h3>SQL</h3>
+            <p>PostgreSQL, AWS Redshift, Oracle, Microsoft SQL</p>
+        </div>
+        <div class="skill-card">
+            <h3>BI Development</h3>
+            <p>Dahsboards, Reporting, Analytics Applications</p>
+        </div>
     </div>
-</div>
-
-<!-- 🔷 FOOTER -->
-<footer class="bg-dark text-white text-center py-3">
-    <p class="mb-0">© 2026 Ken's Dashboards| Data Portfolio</p>
-</footer>
-
-</body>
-</html>
+</section>
+<!-- PORTFOLIO SECTION -->
+<section id="portfolio">
+    <h2>Analytics Portfolio</h2>
+    <div class="projects">
+        <div class="project-card">
+            <img src="{{ url_for('static', filename='images/healthcare_dashbnoard.png' )}}">
+            <h3>Healthcare Fraud Analytics</h3>
+            <p> Interative dashboard analyzing healthcare claims, provider behavior, and fraud indicators.</p>
+            <span>Python</span>
+            <span>Plotly Dash</span>
+            <span>DuckDB</span>
+        </div>
+        <div class="project-card">
+            <img src="{{ url_for('static', filename='images/sales_dashboard.png') }}">
+            <h3>Retail Sales Analytics</h3>
+            <p> Sales performance dashboard analyzing trends, sotres, products, and business KPIs.</p>
+            <span>SQL</span>
+            <span>Python</span>
+            <span>Dashboard</span>
+        </div>
+    </div>
+</section>
+{% endblock %}
