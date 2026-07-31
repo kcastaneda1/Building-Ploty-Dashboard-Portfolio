@@ -22,23 +22,67 @@
 </section>
 <!-- ABOUT SECTION -->
 <section id="about">
-    <h2>About Me</h2>
-    <p>
+    <h2 class="section-title">About Me</h2>
+    <p class="section-description">
         I am a Senior BI Analyst with 10+ years of experience building analytics solutions
         acros various sectors such as healthcare, education, and operations
     </p>
-    <div class="skills">
-        <div class="skill-card">
+    <div class="stats-container">
+        <div class="stat-card">
+            <h3>10+</h3>
+            <p>Years Analytics Experience</p>
+        </div>
+        <div class="stat-card">
             <h3>Python</h3>
-            <p>Pandas, Numpy, Plotly, Flask</p>
+            <p>Analytics Development</p>
         </div>
-        <div class="skill-card">
+        <div class="stat-card">
             <h3>SQL</h3>
-            <p>PostgreSQL, AWS Redshift, Oracle, Microsoft SQL</p>
+            <p>Data Engineering</p>
+        </div>
+    </div>
+</section>
+<!-- SKILLS -->
+<section id="skills">
+    <h2 class="section-title">
+        Analytics Stack
+    </h2>
+    <p class="section-description">
+        Technologies and tools I use to build
+        data-driven applications and dashboards.
+    </p>
+    <div class="skills-grid">
+        <div class="skill-card">
+            <h3>
+                Python
+            </h3>
+            <p>
+                Pandas • NumPy • Plotly • Dash
+            </p>
         </div>
         <div class="skill-card">
-            <h3>BI Development</h3>
-            <p>Dahsboards, Reporting, Analytics Applications</p>
+            <h3>
+                SQL
+            </h3>
+            <p>
+                PostgreSQL • Redshift • Oracle
+            </p>
+        </div>
+        <div class="skill-card">
+            <h3>
+                Business Intelligence
+            </h3>
+            <p>
+            Dashboards • KPI Reporting • Analytics
+            </p>
+        </div>
+        <div class="skill-card">
+            <h3>
+                Data Engineering
+            </h3>
+            <p>
+                ETL • Data Modeling • Automation
+            </p>
         </div>
     </div>
 </section>
@@ -47,7 +91,7 @@
     <h2>Analytics Portfolio</h2>
     <div class="projects">
         <div class="project-card">
-            <img src="{{ url_for('static', filename='images/healthcare_dashbnoard.png' )}}">
+            <img src="{{ url_for('static', filename='images/healthcare_dashboard.png' )}}">
             <h3>Healthcare Fraud Analytics</h3>
             <p> Interative dashboard analyzing healthcare claims, provider behavior, and fraud indicators.</p>
             <span>Python</span>
