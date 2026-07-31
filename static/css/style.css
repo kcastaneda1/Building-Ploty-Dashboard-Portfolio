@@ -137,3 +137,65 @@ footer {
 .copyright {
     color:#64748B;
 }
+
+/* ==========================
+   CENTERED CONTENT SECTIONS
+========================== */
+#about,
+#skills {
+    text-align:center;
+}
+
+.stats-container {
+    display:flex;
+    justify-content:center;
+    gap:30px;
+    margin-top:50px;
+}
+
+.stat-card {
+    background:#111827;
+    padding:30px;
+    border-radius:16px;
+    width:250px;
+    border:1px solid #1E293B;
+}
+
+.stat-card h3 {
+    font-size:36px;
+    color:#38BDF8;
+}
+
+.skills-grid {
+    display:grid;
+    grid-template-columns:
+    repeat(4,1fr);
+    gap:25px;
+    margin-top:50px;
+}
+
+.skill-card {
+    background:#111827;
+    padding:30px;
+    border-radius:16px;
+    border:1px solid #1E293B;
+}
+
+.skill-card h3 {
+    margin-bottom:15px;
+    color:#38BDF8;
+}
+
+.skill-card p {
+    color:#94A3B8;
+}
+
+/* Mobile */
+@media(max-width:900px){
+.stats-container,
+.skills-grid{
+    grid-template-columns:1fr;
+    flex-direction:column;
+    align-items:center;
+}
+}
