@@ -6,7 +6,7 @@
     <div class="hero-section">
         <div class="hero-content">
             <h1>Building Data Products that Driver Decisions</h1>
-            <p>Senior Business Intelligence Analyst specializign in Python, SQl and interactive 
+            <p>Senior Business Intelligence Analyst specializing in Python, SQl and interactive 
                 analytics applications. 
             </p>
             <div class="her-button">
@@ -88,23 +88,74 @@
 </section>
 <!-- PORTFOLIO SECTION -->
 <section id="portfolio">
-    <h2>Analytics Portfolio</h2>
-    <div class="projects">
+    <h2 class="section-title">
+        Featured Projects
+    </h2>
+    <p class="section-description">
+        Interactive analytics applications
+        designed to transform data into
+        actionable business insights.
+    </p>
+    <div class="projects-grid">
+    <!-- PROJECT 1 -->
         <div class="project-card">
-            <img src="{{ url_for('static', filename='images/healthcare_dashboard.png' )}}">
-            <h3>Healthcare Fraud Analytics</h3>
-            <p> Interative dashboard analyzing healthcare claims, provider behavior, and fraud indicators.</p>
-            <span>Python</span>
-            <span>Plotly Dash</span>
-            <span>DuckDB</span>
+            <img 
+                src="{{ url_for('static',filename='images/healthcare_dashboard.png') }}"
+                alt="Healthcare Fraud Dashboard">
+            <div class="project-content">
+                <h3>
+                    Healthcare Fraud Analytics
+                </h3>
+                <p>
+                    Interactive fraud detection dashboard
+                    analyzing healthcare claims,
+                    providers, and risk indicators.
+                </p>
+                <div class="tech-stack">
+                    <span>Python</span>
+                    <span>Plotly Dash</span>
+                    <span>DuckDB</span>
+                    <span>SQL</span>
+                </div>
+                <div class="project-links">
+                    <a href="#" class="btn-primary">
+                        Live Demo
+                    </a>
+                    <a href="#" class="btn-outline">
+                        GitHub
+                    </a>
+                </div>
+            </div>
         </div>
+        <!-- PROJECT 2 -->
         <div class="project-card">
-            <img src="{{ url_for('static', filename='images/sales_dashboard.png') }}">
-            <h3>Retail Sales Analytics</h3>
-            <p> Sales performance dashboard analyzing trends, sotres, products, and business KPIs.</p>
-            <span>SQL</span>
-            <span>Python</span>
-            <span>Dashboard</span>
+            <img 
+                src="{{ url_for('static',filename='images/retail_dashboard.png') }}"
+                alt="Retail Sales Dashboard">
+            <div class="project-content">
+                <h3>
+                    Retail Sales Analytics
+                </h3>
+                <p>
+                    Executive dashboard analyzing
+                    sales performance, products,
+                    stores, and business trends.
+                </p>
+                <div class="tech-stack">
+                    <span>Python</span>
+                    <span>SQL</span>
+                    <span>Plotly</span>
+                    <span>Pandas</span>
+                </div>
+                <div class="project-links">
+                    <a href="#" class="btn-primary">
+                        Live Demo
+                    </a>
+                    <a href="#" class="btn-outline">
+                        GitHub
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </section>
