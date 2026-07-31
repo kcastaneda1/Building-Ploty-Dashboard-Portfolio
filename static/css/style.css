@@ -74,27 +74,16 @@ nav a:hover {
    SECTIONS
 ========================== */
 section {
-    max-width:1200px;
-    margin:auto;
+    width:100%;
     padding:120px 30px;
 
 }
 
-.section-title {
-    text-align:center;
-    font-size:42px;
-    margin-bottom:20px;
-
+section > * {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }
-
-.section-description {
-    max-width:700px;
-    margin:auto;
-    text-align:center;
-    color:#94A3B8;
-
-}
-
 /* ==========================
    BUTTONS
 ========================== */
@@ -146,6 +135,11 @@ footer {
     text-align:center;
 }
 
+#about .section-description {
+    margin-left:auto;
+    margin-right:auto;
+}
+
 .stats-container {
     display:flex;
     justify-content:center;
@@ -168,9 +162,9 @@ footer {
 
 .skills-grid {
     display:grid;
-    grid-template-columns:
-    repeat(4,1fr);
-    gap:25px;
+    grid-template-columns:repeat(4,250px);
+    justify-content: center;
+    gap:30px;
     margin-top:50px;
 }
 
@@ -205,8 +199,8 @@ footer {
 ========================== */
 .projects-grid {
     display:grid;
-    grid-template-columns:
-    repeat(2,1fr);
+    grid-template-columns:repeat(2,500px);
+    justify-content: center;
     gap:40px;
     margin-top:60px;
 }
