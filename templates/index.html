@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="Profile Picture" class="img-fluid rounded-circle">
+                <img src="{{ url_for('static', filename='images/selfie.webp') }}" alt="Profile Picture" class="img-fluid rounded-circle">
             </div>
         </div>
     </div>
@@ -33,34 +33,34 @@
       <p style="color: #94a3b8;">MY WORK</p>
       <h2>Featured Projects</h2>
       <p>A collection of data applications and dashboards.</p>
-      <div class="row">
-        <div class="col-md-4">
-          <div class="card">
+      <div class="row g-4">
+        <div class="col-md-4 d-flex">
+          <div class="card project-card w-100">
             <img src="{{ url_for('static',filename='images/healthcare_dashboard.png') }}"
                 alt="Healthcare Fraud Dashboard"
                 class="card-img-top">
-            <div class="card-body">
+            <div class="card-body d-flex flex-column">
               <h5 class="card-title">Healthcare Fraud Dashboard</h5>
-              <p class="card-text">
+              <p class="card-text flex-grow-1">
                 Interactive dashboard for healthcare fraud detection and analysis, providing insights into 
                 fraudulent claims and patterns.
               </p>
-              <a href="/healthcare/" class="btn btn-primary">View Project</a>
+              <a href="/healthcare/" class="btn btn-primary mt-auto">View Project</a>
             </div>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="card">
+        <div class="col-md-4 d-flex">
+          <div class="card project-card w-100">
             <img src="{{ url_for('static',filename='images/sales_dashboard.png') }}"
                 alt="Retail Sales Dashboard"
                 class="card-img-top">
-            <div class="card-body">
+            <div class="card-body d-flex flex-column">
               <h5 class="card-title">Retail Sales Dashboard</h5>
-              <p class="card-text">
-                End-to-end analytics platform for retail sales analysis with trend forcasting and 
-                inventory insights
-            </p>
-              <a href="/sales/" class="btn btn-primary">View Project</a>
+              <p class="card-text flex-grow-1">
+                End-to-end analytics platform for retail sales analysis with trend forecasting and
+                inventory insights.
+              </p>
+              <a href="/sales/" class="btn btn-primary mt-auto">View Project</a>
             </div>
           </div>
         </div>
