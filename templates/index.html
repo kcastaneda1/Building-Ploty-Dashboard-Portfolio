@@ -6,28 +6,29 @@
 <!-- HERO SECTION -->
  <section class="hero-section">
     <div class="container">
-      <div class="row">
-        <div class="col-md-6">
-          <p style="color: #94a3b8;">WELCOME TO MY PORTFOLIO</p>
-          <h2 class="intro-title-top" style="color: #1e293b;"><strong>BUSINESS INTELLIGENCE</strong></h2>
-          <h2 class="intro-title2-bottom" style="color: #1d4ed8;"><strong>ANALYST & DATA ENGINEER</strong></h2>
-          <p>
-            I transform data into actionable insights and build interactive dashboard tat drive data-driven decisions. 
-            Explore my portfolio to see how I can help your business thrive.
-          </p>
-          <div class="intro-badges">
-            <span>8+ Years Experience</span>
-            <span>Python</span>
-            <span>SQL</span>
-            <span>BI Tools</span>
-          </div>
+        <div class="row">
+            <div class="col-md-6">
+                <p style="color: #94a3b8;">WELCOME TO MY PORTFOLIO</p>
+                <h2 class="intro-title-top" style="color: #1e293b;"><strong>BUSINESS INTELLIGENCE</strong></h2>
+                <h2 class="intro-title2-bottom" style="color: #1d4ed8;"><strong>ANALYST & DATA ENGINEER</strong></h2>
+                <p>
+                    I transform data into actionable insights and build interactive dashboard tat drive data-driven decisions. 
+                    Explore my portfolio to see how I can help your business thrive.
+                </p>
+                <div class="intro-badges">
+                    <span>8+ Years Experience</span>
+                    <span>Python</span>
+                    <span>SQL</span>
+                    <span>BI Tools</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="Profile Picture" class="img-fluid rounded-circle">
+            </div>
         </div>
-      <!--- <div class="col-md-6">
-            <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="Profile Picture" class="img-fluid rounded-circle">
-        </div> -->
-      </div>
     </div>
 </section> 
+
 <!-- FEATURE PROJECTS -->
 <section class="featured-section">
     <div class="container">
@@ -74,76 +75,78 @@
       </div>
     </div>
 </section> 
+
 <!-- Skills -->
- <section class="skills-section">
+<section class="skills-section">
     <div class="container">
-      <p style="color: #94a3b8;">EXPERTISE</p>
-      <h2>Technical Skills</h2>
-      <div class="row skill-grid">
-        <div class="col-md-3 skill-item">
-          <div class="skill-card">
-            <!--<img src="{{ url_for('static', filename='images/dashboard-tools.jpg') }}" alt="Dashboard Tools" class="skill-icon">-->
-            <div>
-              <h5>Analytics</h5>
-              <p>Data analysis, visualization, and reporting</p>
+        <p style="color: #94a3b8;">EXPERTISE</p>
+        <h2>Technical Skills</h2>
+        <div class="row skill-grid">
+            <div class="col-md-3 skill-item">
+                <div class="skill-card">
+                    <img src="{{ url_for('static', filename='images/dashboard-tools.jpg') }}" alt="Dashboard Tools" class="skill-icon">
+                    <div>
+                        <h5>Analytics</h5>
+                        <p>Data analysis, visualization, and reporting</p>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="col-md-3 skill-item">
-          <div class="skill-card">
-        <!-- <img src="{{ url_for('static', filename='images/sql.jpg') }}" alt="SQL" class="skill-icon"> -->
-            <div>
-              <h5>SQL</h5>
-              <p>Database querying, optimization, and reporting</p>
+            <div class="col-md-3 skill-item">
+                <div class="skill-card">
+                    <img src="{{ url_for('static', filename='images/sql.jpg') }}" alt="SQL" class="skill-icon">
+                    <div>
+                        <h5>SQL</h5>
+                        <p>Database querying, optimization, and reporting</p>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="col-md-3 skill-item">
-          <div class="skill-card">
-           <!-- <img src="{{ url_for('static', filename='images/tableau.jpg') }}" alt="Tableau" class="skill-icon"> -->
-            <div>
-              <h5>Plotly Dash</h5>
-              <p>Interactive dashboards and executive reporting</p>
+            <div class="col-md-3 skill-item">
+                <div class="skill-card">
+                    <img src="{{ url_for('static', filename='images/tableau.jpg') }}" alt="Tableau" class="skill-icon">
+                    <div>
+                        <h5>Plotly Dash</h5>
+                        <p>Interactive dashboards and executive reporting</p>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="col-md-3 skill-item">
-          <div class="skill-card">
-         <!-- <img src="{{ url_for('static', filename='images/python.jpg') }}" alt="Python" class="skill-icon"> -->
-            <div>
-              <h5>Python</h5>
-              <p>Automation, analysis, and data engineering workflows</p>
+            <div class="col-md-3 skill-item">
+                <div class="skill-card">
+                    <img src="{{ url_for('static', filename='images/python.jpg') }}" alt="Python" class="skill-icon">
+                    <div>
+                        <h5>Python</h5>
+                        <p>Automation, analysis, and data engineering workflows</p>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </section>
+</section>
 
 <!-- ABOUT SECTION -->
 <section class="about-section">
     <div class="container">
-      <div class="about-box about-intro">
-        <h2 style="color: #1e293b;"><strong>About Me</strong></h2>
-        <p>
-          I am a passionate data professional with a strong background in business intelligence and data engineering.
-          My goal is to help organizations make data-driven decisions by transforming raw data into actionable insights.
-        </p>
-      </div>
+        <div class="about-box about-intro">
+            <h2 style="color: #1e293b;"><strong>About Me</strong></h2>
+            <p>
+                I am a passionate data professional with a strong background in business intelligence and data engineering.
+                My goal is to help organizations make data-driven decisions by transforming raw data into actionable insights.
+            </p>
+        </div>
 
-      <div class="about-box about-highlight">
-        <h3 style="color: #94a3b8;"><strong>10+ Years</strong></h3>
-        <p>Analyst experience across reporting, dashboards, and business strategy.</p>
-      </div>
+        <div class="about-box about-highlight">
+            <h3 style="color: #94a3b8;"><strong>10+ Years</strong></h3>
+            <p>Analyst experience across reporting, dashboards, and business strategy.</p>
+        </div>
 
-      <div class="about-box about-highlight">
-        <h3 style="color: #94a3b8;"><strong>Commitment to Quality</strong></h3>
-        <p>I focus on accurate insights, clean data, and dependable results.</p>
-      </div>
+        <div class="about-box about-highlight">
+            <h3 style="color: #94a3b8;"><strong>Commitment to Quality</strong></h3>
+            <p>I focus on accurate insights, clean data, and dependable results.</p>
+        </div>
 
-      <div class="about-box about-highlight">
-        <h3 style="color: #94a3b8;"><strong>Client-Focused</strong></h3>
-        <p>I translate complex data into clear solutions that support smart decisions.</p>
+        <div class="about-box about-highlight">
+            <h3 style="color: #94a3b8;"><strong>Client-Focused</strong></h3>
+            <p>I translate complex data into clear solutions that support smart decisions.</p>
+        </div>
       </div>
     </div>
 </section>
