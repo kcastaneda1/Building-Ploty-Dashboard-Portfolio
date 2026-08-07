@@ -16,6 +16,14 @@
     /* Borders */
     --color-border: #e2e8f0;
 }
+
+
+body {
+    margin: 0;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    font-family: "Inter", sans-serif;
+}
 /* ==========================
    GLOBAL SETTINGS
 ========================== */
@@ -25,7 +33,7 @@ html {
 
 /* ==========================
    NAVIGATION
-
+========================== */
 .navbar {
     position:fixed;
     top:0;
@@ -67,10 +75,9 @@ nav a {
 nav a:hover {
     color:#38BDF8;
 }
-    ========================== */
  /* ==========================
    FOOTER
-
+========================== */
 footer {
     padding:80px 30px;
     text-align:center;
@@ -93,7 +100,7 @@ footer {
 .copyright {
     color:#64748B;
 }
-========================== */
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
