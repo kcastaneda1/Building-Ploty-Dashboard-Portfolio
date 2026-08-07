@@ -2,233 +2,149 @@
 {% block content %}
 
 <!-- frame: Navbar / Desktop -->
-<div class="frame navbar-d-6a333be88257">
-  <!-- rect: Rectangle -->
-  <div class="shape rect rectangle-6a34a1f51b6f">
-  </div>
-  <!-- frame: Board -->
-  <div class="frame board-6a3992242b0a">
-    <!-- frame: Navigation Links -->
-    <div class="frame navigation-6a38e445832b">
-      <!-- text: Contact -->
-      <div class="shape text contact-6a38d4d49716">
-        <div class="text-node-html" id="html-text-node-b43389ad-b341-8094-8008-6a38d4d49716" data-x="845" data-y="628.5">
-          <div class="root rich-text root-0" xmlns="http://www.w3.org/1999/xhtml">
-            <div class="paragraph-set root-0-paragraph-set-0">
-              <p class="paragraph root-0-paragraph-set-0-paragraph-0" dir="ltr"><span class="text-node root-0-paragraph-set-0-paragraph-0-text-0">Contact</span></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- text: About -->
-      <div class="shape text about-6a38ccddf5c0">
-        <div class="text-node-html" id="html-text-node-b43389ad-b341-8094-8008-6a38ccddf5c0" data-x="772" data-y="628.5">
-          <div class="root rich-text root-0" xmlns="http://www.w3.org/1999/xhtml">
-            <div class="paragraph-set root-0-paragraph-set-0">
-              <p class="paragraph root-0-paragraph-set-0-paragraph-0" dir="ltr"><span class="text-node root-0-paragraph-set-0-paragraph-0-text-0">About</span></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- text: Dashboards -->
-      <div class="shape text dashboards-6a38c2f16728">
-        <div class="text-node-html" id="html-text-node-b43389ad-b341-8094-8008-6a38c2f16728" data-x="659" data-y="628.5">
-          <div class="root rich-text root-0" xmlns="http://www.w3.org/1999/xhtml">
-            <div class="paragraph-set root-0-paragraph-set-0">
-              <p class="paragraph root-0-paragraph-set-0-paragraph-0" dir="ltr"><span class="text-node root-0-paragraph-set-0-paragraph-0-text-0">Dashboards</span></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- text: Projects -->
-      <div class="shape text projects-6a38b7c2696c">
-        <div class="text-node-html" id="html-text-node-b43389ad-b341-8094-8008-6a38b7c2696c" data-x="572" data-y="628.5">
-          <div class="root rich-text root-0" xmlns="http://www.w3.org/1999/xhtml">
-            <div class="paragraph-set root-0-paragraph-set-0">
-              <p class="paragraph root-0-paragraph-set-0-paragraph-0" dir="ltr"><span class="text-node root-0-paragraph-set-0-paragraph-0-text-0">Projects</span></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- text: Home -->
-      <div class="shape text home-6a36ba210310">
-        <div class="text-node-html" id="html-text-node-b43389ad-b341-8094-8008-6a36ba210310" data-x="500" data-y="628.5">
-          <div class="root rich-text root-0" xmlns="http://www.w3.org/1999/xhtml">
-            <div class="paragraph-set root-0-paragraph-set-0">
-              <p class="paragraph root-0-paragraph-set-0-paragraph-0" dir="ltr"><span class="text-node root-0-paragraph-set-0-paragraph-0-text-0">Home</span></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- text: Logo -->
-    <div class="shape text logo-6a36062930fe">
-      <div class="text-node-html" id="html-text-node-b43389ad-b341-8094-8008-6a36062930fe" data-x="-268" data-y="621">
-        <div class="root rich-text root-0" xmlns="http://www.w3.org/1999/xhtml">
-          <div class="paragraph-set root-0-paragraph-set-0">
-            <p class="paragraph root-0-paragraph-set-0-paragraph-0" dir="ltr"><span class="text-node root-0-paragraph-set-0-paragraph-0-text-0">Ken&#x27;s Dashboard Portfolio</span></p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+
 <!-- HERO SECTION -->
-<section class="hero">
-    <div class="hero-section">
-        <div class="hero-content">
-            <h1>Building Data Products that Driver Decision. (UNDER CONSTRUCTION)</h1>
-            <p>Senior Business Intelligence Analyst specializing in Python, SQl and interactive 
-                analytics applications. 
-            </p>
-            <div class="her-button">
-                <a href="#portfolio" class="btn-primary">
-                    View Dashboards
-                </a>
-            </div>
+ <section class="hero-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <p style="color: #94a3b8;">WELCOME TO MY PORTFOLIO</p>
+          <h2 class="intro-title-top" style="color: #1e293b;"><strong>BUSINESS INTELLIGENCE</strong></h2>
+          <h2 class="intro-title2-bottom" style="color: #1d4ed8;"><strong>ANALYST & DATA ENGINEER</strong></h2>
+          <p>
+            I transform data into actionable insights and build interactive dashboard tat drive data-driven decisions. 
+            Explore my portfolio to see how I can help your business thrive.
+          </p>
+          <div class="intro-badges">
+            <span>8+ Years Experience</span>
+            <span>Python</span>
+            <span>SQL</span>
+            <span>BI Tools</span>
+          </div>
         </div>
-        <div class="hero-image">
-            <img src="{{ url_for('static', filename='images/sales_dashboard.png') }}">
+        <div class="col-md-6">
+            <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="Profile Picture" class="img-fluid rounded-circle">
         </div>
+      </div>
     </div>
-</section>
+</section> 
+<!-- FEATURE PROJECTS -->
+<section class="featured-section">
+    <div class="container">
+      <p style="color: #94a3b8;">MY WORK</p>
+      <h2>Featured Projects</h2>
+      <p>A collection of data applications and dashboards.</p>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card">
+            <img src="{{ url_for('static',filename='images/healthcare_dashboard.png') }}"
+                alt="Healthcare Fraud Dashboard"
+                class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title">Project 1</h5>
+              <p class="card-text">A brief description of Project 1.</p>
+              <a href="#" class="btn btn-primary">View Project</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <img src="{{ url_for('static',filename='images/retail_dashboard.png') }}"
+                alt="Retail Sales Dashboard"
+                class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title">Project 2</h5>
+              <p class="card-text">A brief description of Project 2.</p>
+              <a href="#" class="btn btn-primary">View Project</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <img src="{{ url_for('static',filename='images/project3.jpg') }}"
+                alt="Project 3"
+                class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title">Project 3</h5>
+              <p class="card-text">A brief description of Project 3.</p>
+              <a href="#" class="btn btn-primary">View Project</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section> 
+<!-- Skills -->
+ <section class="skills-section">
+    <div class="container">
+      <p style="color: #94a3b8;">EXPERTISE</p>
+      <h2>Technical Skills</h2>
+      <div class="row skill-grid">
+        <div class="col-md-3 skill-item">
+          <div class="skill-card">
+            <img src="{{ url_for('static', filename='images/dashboard-tools.jpg') }}" alt="Dashboard Tools" class="skill-icon">
+            <div>
+              <h5>Analytics</h5>
+              <p>Data analysis, visualization, and reporting</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 skill-item">
+          <div class="skill-card">
+            <img src="{{ url_for('static', filename='images/sql.jpg') }}" alt="SQL" class="skill-icon">
+            <div>
+              <h5>SQL</h5>
+              <p>Database querying, optimization, and reporting</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 skill-item">
+          <div class="skill-card">
+            <img src="{{ url_for('static', filename='images/tableau.jpg') }}" alt="Tableau" class="skill-icon">
+            <div>
+              <h5>Plotly Dash</h5>
+              <p>Interactive dashboards and executive reporting</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 skill-item">
+          <div class="skill-card">
+            <img src="{{ url_for('static', filename='images/python.jpg') }}" alt="Python" class="skill-icon">
+            <div>
+              <h5>Python</h5>
+              <p>Automation, analysis, and data engineering workflows</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 <!-- ABOUT SECTION -->
-<section id="about">
-    <h2 class="section-title">About Me</h2>
-    <p class="section-description">
-        I am a Senior BI Analyst with 10+ years of experience building analytics solutions
-        across various sectors such as healthcare, education, and operations.
-    </p>
-    <div class="stats-container">
-        <div class="stat-card">
-            <h3>10+</h3>
-            <p>Years Analytics Experience</p>
-        </div>
-        <div class="stat-card">
-            <h3>Python</h3>
-            <p>Analytics Development</p>
-        </div>
-        <div class="stat-card">
-            <h3>SQL</h3>
-            <p>Data Engineering</p>
-        </div>
-    </div>
-</section>
-<!-- SKILLS -->
-<section id="skills">
-    <h2 class="section-title">
-        Analytics Stack
-    </h2>
-    <p class="section-description">
-        Technologies and tools I use to build
-        data-driven applications and dashboards.
-    </p>
-    <div class="skills-grid">
-        <div class="skill-card">
-            <h3>
-                Python
-            </h3>
-            <p>
-                Pandas • NumPy • Plotly • Dash
-            </p>
-        </div>
-        <div class="skill-card">
-            <h3>
-                SQL
-            </h3>
-            <p>
-                PostgreSQL • Redshift • Oracle
-            </p>
-        </div>
-        <div class="skill-card">
-            <h3>
-                Business Intelligence
-            </h3>
-            <p>
-            Dashboards • KPI Reporting • Analytics
-            </p>
-        </div>
-        <div class="skill-card">
-            <h3>
-                Data Engineering
-            </h3>
-            <p>
-                ETL • Data Modeling • Automation
-            </p>
-        </div>
-    </div>
-</section>
-<!-- PORTFOLIO SECTION -->
-<section id="portfolio">
-    <h2 class="section-title">
-        Featured Projects
-    </h2>
-    <p class="section-description">
-        Interactive analytics applications
-        designed to transform data into
-        actionable business insights.
-    </p>
-    <div class="projects-grid">
-    <!-- PROJECT 1 -->
-        <div class="project-card">
-            <img 
-                src="{{ url_for('static',filename='images/healthcare_dashboard.png') }}"
-                alt="Healthcare Fraud Dashboard">
-            <div class="project-content">
-                <h3>
-                    Healthcare Fraud Analytics
-                </h3>
-                <p>
-                    Interactive fraud detection dashboard
-                    analyzing healthcare claims,
-                    providers, and risk indicators.
-                </p>
-                <div class="tech-stack">
-                    <span>Python</span>
-                    <span>Plotly Dash</span>
-                    <span>DuckDB</span>
-                    <span>SQL</span>
-                </div>
-                <div class="project-links">
-                    <a href="#" class="btn-primary">
-                        Live Demo
-                    </a>
-                    <a href="#" class="btn-outline">
-                        GitHub
-                    </a>
-                </div>
-            </div>
-        </div>
-        <!-- PROJECT 2 -->
-        <div class="project-card">
-            <img 
-                src="{{ url_for('static',filename='images/retail_dashboard.png') }}"
-                alt="Retail Sales Dashboard">
-            <div class="project-content">
-                <h3>
-                    Retail Sales Analytics
-                </h3>
-                <p>
-                    Executive dashboard analyzing
-                    sales performance, products,
-                    stores, and business trends.
-                </p>
-                <div class="tech-stack">
-                    <span>Python</span>
-                    <span>SQL</span>
-                    <span>Plotly</span>
-                    <span>Pandas</span>
-                </div>
-                <div class="project-links">
-                    <a href="#" class="btn-primary">
-                        Live Demo
-                    </a>
-                    <a href="#" class="btn-outline">
-                        GitHub
-                    </a>
-                </div>
-            </div>
-        </div>
+<section class="about-section">
+    <div class="container">
+      <div class="about-box about-intro">
+        <h2 style="color: #1e293b;"><strong>About Me</strong></h2>
+        <p>
+          I am a passionate data professional with a strong background in business intelligence and data engineering.
+          My goal is to help organizations make data-driven decisions by transforming raw data into actionable insights.
+        </p>
+      </div>
+
+      <div class="about-box about-highlight">
+        <h3 style="color: #94a3b8;"><strong>10+ Years</strong></h3>
+        <p>Analyst experience across reporting, dashboards, and business strategy.</p>
+      </div>
+
+      <div class="about-box about-highlight">
+        <h3 style="color: #94a3b8;"><strong>Commitment to Quality</strong></h3>
+        <p>I focus on accurate insights, clean data, and dependable results.</p>
+      </div>
+
+      <div class="about-box about-highlight">
+        <h3 style="color: #94a3b8;"><strong>Client-Focused</strong></h3>
+        <p>I translate complex data into clear solutions that support smart decisions.</p>
+      </div>
     </div>
 </section>
 {% endblock %}
