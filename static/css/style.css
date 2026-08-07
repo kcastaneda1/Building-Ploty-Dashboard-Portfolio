@@ -138,6 +138,22 @@ footer {
     background: var(--color-background);
 }
 
+.project-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+}
+
+.project-card .card-img-top {
+    height: 220px;
+    object-fit: cover;
+}
+
+.project-card .card-body {
+    padding: 20px;
+}
+
 .about-section {
     padding: 40px 0;
     background: var(--color-background);
