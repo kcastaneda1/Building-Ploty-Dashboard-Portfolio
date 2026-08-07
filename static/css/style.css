@@ -23,20 +23,6 @@ html {
     scroll-behavior:smooth;
 }
 
-body {
-    font-family:
-    "Inter",
-    sans-serif;
-    background:#0B1120;
-    color:#F8FAFC;
-    line-height:1.6;
-}
-
-a {
-    text-decoration:none;
-    color:inherit;
-}
-
 /* ==========================
    NAVIGATION
 ========================== */
