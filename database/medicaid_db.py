@@ -126,5 +126,5 @@ def build_medicaid_database():
     finally:
         con.close()
 
-if __name__ == '__main__':
-    build_medicaid_database()
+#if __name__ == '__main__':
+#    build_medicaid_database()
