@@ -96,7 +96,7 @@ def clean_dataset(limit=1000):
 
     # Conver numeric fields
     for col in numeric_columns:
-        clean_df[col] = pd.DataFrame(
+        clean_df[col] = pd.to_numeric(
             clean_df[col],
             errors = 'coerce'
         )
