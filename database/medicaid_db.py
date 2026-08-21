@@ -40,6 +40,15 @@ def create_medicaid_analytics_view(con):
 
 def create_medicaid_final_view(con):
     con.execute("""
+    CREATE OR REPLACE VIEW medicaid_final AS 
+    SELECT 
+        *
+    FROM medicaid_analytics
+    WHERE is_final_record = TRUE
+    """)
+
+def create_latest_state_enrollment_view(con):
+    con.execute("""
     CREATE OR REPLACE VIEW vw_lastest_state_enrollment AS 
     SELECT 
         state_abbreviation,
@@ -110,6 +119,8 @@ def build_medicaid_database():
         create_medicaid_raw_table(con)
         create_medicaid_analytics_view(con)
         create_medicaid_final_view(con)
+        create_latest_state_enrollment_view(con)
+        create_enrollment_trend_view(con)
         create_state_enrollment_growth_view(con)
         create_latest_state_growth_view(con)
     finally:
