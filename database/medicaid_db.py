@@ -27,7 +27,7 @@ def create_medicaid_analytics_view(con):
             WHEN final_report = 'Y'
             THEN TRUE
             ELSE FALSE
-        END AS is_final_records,
+        END AS is_final_record,
         CASE 
             WHEN preliminary_or_updated = 'P'
             THEN 'Preliminary'
