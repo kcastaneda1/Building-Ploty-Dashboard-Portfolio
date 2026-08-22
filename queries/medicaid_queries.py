@@ -200,7 +200,10 @@ def get_call_center_trend(filters):
                     filters['end_date']
                 ])
             else:
-                query += f" AND state_name IN ({','.join(['?'] * len(states))})"
+                placeholders = ",".join(["?"] * len(states))
+                query += f"""
+                AND state_name in ({placeholders})
+                """                        
                 params.extend(states)
 
         params += """
