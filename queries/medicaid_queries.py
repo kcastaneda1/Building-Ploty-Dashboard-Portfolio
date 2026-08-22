@@ -189,7 +189,7 @@ def get_call_center_trend(filters):
                     SELECT 
                         state_name,
                     FROM medicaid_final 
-                    WHERE reporting_date ? AND ? 
+                    WHERE reporting_date BETWEEN ? AND ? 
                     GROUP BY state_name 
                     ORDER BY max(total_call_center_volume_number_of_calls) DEC
                     LIMIT 10
