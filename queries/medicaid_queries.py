@@ -203,7 +203,7 @@ def get_call_center_trend(filters):
                 query += f" AND state_name IN ({','.join(['?'] * len(states))})"
                 params.extend(states)
 
-        params +="""
+        params += """
         AND reporting_date BETWEEN ? AND ?
         GROUP BY reporting_date, state_name 
         ORDER BY reporting_date, state_name
