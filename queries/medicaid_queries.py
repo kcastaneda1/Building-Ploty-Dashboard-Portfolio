@@ -12,7 +12,7 @@ def get_medicaid_raw():
 
     try:
         query = """
-        SELECT * FROM medicaid_raaw
+        SELECT * FROM medicaid_raw
         """
 
         return con.execute(query).df()
