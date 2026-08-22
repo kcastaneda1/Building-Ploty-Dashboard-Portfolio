@@ -149,7 +149,7 @@ def get_state_enrollment_growth(filters):
         """
         params.extend([
             filters['start_date'],
-            filters['endn_date']
+            filters['end_date']
         ])
 
         return con.execute(query,params).df()
