@@ -206,7 +206,7 @@ def create_healthcare_app(server):
                                                  'text': f"<b>Medicaid and CHIP Enrollment Trend ({default_metric}</b>)"
                                             }
                                        )
-               else:
+              else:
                    # fallback to previous behavior if state_name not present   
                    medicaid_enr_fig = px.line(
                         enrollment_df,
@@ -221,7 +221,7 @@ def create_healthcare_app(server):
                         title = '<b>Medicaid and CHIP Enrollment Trend</b>'
                    )  
 
-               return(
+         return(
                     style_figure(medicaid_enr_fig)
                )
     return dash_app
