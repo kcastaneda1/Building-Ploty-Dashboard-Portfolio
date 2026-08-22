@@ -121,7 +121,7 @@ def get_state_enrollment_growth(filters):
         else:
             if isinstance(states,str):
                 states=[states]
-            available_states = con.execute("SELECT DISTINCT state_name FROM vw_state_enrolmlent_growth"
+            available_states = con.execute("SELECT DISTINCT state_name FROM vw_state_enrollment_growth"
                                            ).fetchdf()['state_name'].tolist()
 
             if set(states) == set(available_states):
