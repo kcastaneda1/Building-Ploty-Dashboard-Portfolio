@@ -109,14 +109,14 @@ def create_healthcare_app(server):
               Output('global-filters','data'),
               Input('state-filter','value'),
               Input('date-filter','start_date'),
-              Input('date-filter', 'end-date')
+              Input('date-filter', 'end_date')
     )
     
     def update_global_filters(state, start_date, end_date):
          return{
               'state':state,
               'start_date': start_date,
-              'end_date': 'end_date'
+              'end_date': end_date
          }
     @dash_app.callback(
          Output('operational-table','exportDataCsv'),
