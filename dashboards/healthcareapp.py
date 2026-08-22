@@ -137,91 +137,128 @@ def create_healthcare_app(server):
     )
 
     def update_figures(filters):
-         if filters is None:
-              filters = {
-                   'state': states.tolist(),
-                   'start_date': min_date.isoformat(),
-                   'end_date': max_date.isoformat(),
-              }
-              enrollment_df = get_enrollment_trend(filters)
-              # ensure reporting_date is datetime
-              enrollment_df['reporting_date'] = pd.to_datetime(enrollment_df['reporting_date'])
-              value_vars = [
-                   "total_medicaid_chip_enrollment",
-                   "total_medicaid_enrollment",
-                   "total_chip_enrollment"
-              ]
+          if filters is None:
+               filters = {
+                    'state': states.tolist(),
+                    'start_date': min_date.isoformat(),
+                    'end_date': max_date.isoformat(),
+               }
 
-              if 'state_name' is enrollment_df.columns:
-                   #build traces per (metric,state) in order to toogle metrics with dropdown
-                   states_list = sorted(enrollment_df['state_name'].dropna().unique())
-                   default_metric = 'total_medicaid_chip_enrollment' # place the defaul metric
-                   traces = []
-                   for metric in value_vars:
-                        for state in states_list:
-                             df_s = enrollment_df[enrollment_df['state_name'] == state].sort_values('reporting_date')
-                             traces.append(
-                                  go.Scatter(
-                                       x=df_s['reporting_date'],
-                                       y=df_s[metric],
-                                       mode='lines+markers',
-                                       name=state,
-                                       legendgroup=state,
-                                       visible={metric == default_metric},
-                                  )
-                             )
-                             medicaid_enr_fig = go.Figure(data=traces)
+          enrollment_df = get_enrollment_trend(filters)
+          enrollment_df['reporting_date'] = pd.to_datetime(enrollment_df['reporting_date'])
+          value_vars = [
+               "total_medicaid_chip_enrollment",
+               "total_medicaid_enrollment",
+               "total_chip_enrollment"
+          ]
 
-                             #create drowdown button to toggle which metric is visible
-                             buttons = []
-                             for metric in value_vars:
-                                  vis = []
-                                  for m in value_vars:
-                                       # for each metric, e have len(states_list) traces
-                                       vis.extend([m == metric] * len(states_list))
-                                       buttons.appen(
-                                            dict(
-                                                 label = metric,
-                                                 method = 'update',
-                                                 args=[
-                                                      {'visible':vis},
-                                                      {'title': f'<b>Medicaid and CHIP Enrollment Trend ({metric}</b>)'}
-                                                 ]
-                                            )
-                                       )
+          if 'state_name' is enrollment_df.columns:
+               states_list = sorted(enrollment_df['state_name'].dropna().unique())
+               default_metric = 'total_medicaid_chip_enrollment'
+               traces = []
+               for metric in value_vars:
+                    for state in states_list:
+                         df_s = enrollment_df[enrollment_df['state_name'] == state].sort_values('reporting_date')
+                         traces.append(
+                              go.Scatter(
+                                   x=df_s['reporting_date'],
+                                   y=df_s[metric],
+                                   mode='lines+markers',
+                                   name=state,
+                                   legendgroup=state,
+                                   visible={metric == default_metric},
+                              )
+                         )
 
-                                       medicaid_enr_fig.update_layout(
-                                            updatemenus=[
-                                                 dict(
-                                                      active=value_vars.index(default_metric),
-                                                      buttons=buttons,
-                                                      direction='down',
-                                                      x=0.0,
-                                                      xanchor = 'left',
-                                                      y=1.15,
-                                                      yanchor = 'top'
-                                                 )
-                                            ],
-                                            title={
-                                                 'text': f"<b>Medicaid and CHIP Enrollment Trend ({default_metric}</b>)"
-                                            }
-                                       )
-              else:
-                   # fallback to previous behavior if state_name not present   
-                   medicaid_enr_fig = px.line(
-                        enrollment_df,
-                        x = 'reporting_date',
-                        y=value_vars,
-                        markers=True,
-                        labels={
-                             'reporting_date': 'Reporting Date',
-                             'value': 'Enrollment',
-                             'variable': 'Program'
-                        },
-                        title = '<b>Medicaid and CHIP Enrollment Trend</b>'
-                   )  
+               medicaid_enr_fig = go.Figure(data=traces)
+               buttons = []
+               for metric in value_vars:
+                    vis = []
+                    for current_metric in value_vars:
+                         vis.extend([current_metric == metric] * len(states_list))
+                    buttons.append(
+                         dict(
+                              label=metric,
+                              method='update',
+                              args=[
+                                   {'visible': vis},
+                                   {'title': f'<b>Medicaid and CHIP Enrollment Trend ({metric}</b>)'}
+                              ]
+                         )
+                    )
 
-         return(
-                    style_figure(medicaid_enr_fig)
+               medicaid_enr_fig.update_layout(
+                    updatemenus=[
+                         dict(
+                              active=value_vars.index(default_metric),
+                              buttons=buttons,
+                              direction='down',
+                              x=0.0,
+                              xanchor='left',
+                              y=1.15,
+                              yanchor='top'
+                         )
+                    ],
+                    title={
+                         'text': f"<b>Medicaid and CHIP Enrollment Trend ({default_metric}</b>)"
+                    }
                )
+          else:
+               medicaid_enr_fig = px.line(
+                    enrollment_df,
+                    x='reporting_date',
+                    y=value_vars,
+                    markers=True,
+                    labels={
+                         'reporting_date': 'Reporting Date',
+                         'value': 'Enrollment',
+                         'variable': 'Program'
+                    },
+                    title='<b>Medicaid and CHIP Enrollment Trend</b>'
+               )
+
+          growth_df = get_state_enrollment_growth(filters)
+          grw_fig = px.bar(
+               growth_df,
+               x="state_name",
+               y="enrollment_change",
+               labels={
+                    "state_name": "State",
+                    "enrollment_change": "Enrollment Change"
+               },
+               title='<b>State Medicaid & CHIP Enrollment Change</b>'
+          )
+
+          call_center_df = get_call_center_trend(filters)
+          call_center_fig = px.line(
+               call_center_df,
+               x="reporting_date",
+               y="total_call_volume",
+               color="state_name",
+               markers=True,
+               labels={
+                    "reporting_date": "Reporting Date",
+                    "total_call_volume": "Call Volume"
+               },
+               title="<b>Call Center Volume Trend</b>"
+          )
+
+          operational_df = get_operational_performance(filters).fillna(0)
+          column_defs = [
+               {
+                    "field": col,
+                    "headerName": col.replace("_", " ").title(),
+                    "sortable": True,
+                    "filter": True,
+               }
+               for col in operational_df.columns
+          ]
+
+          return (
+               style_figure(medicaid_enr_fig),
+               style_figure(grw_fig),
+               style_figure(call_center_fig),
+               operational_df.to_dict("records"),
+               column_defs,
+          )
     return dash_app
