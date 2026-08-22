@@ -4,7 +4,8 @@ from dash import Dash, dcc, html, dash_table
 import plotly.graph_objects as go
 import plotly.express as px
 from datetime import timedelta
-from load_data.load_healthcare_data import get_connection_health
+import dash_ag_grid as dag
+from queries.medicaid_queries import get_enrollment_trend, get_medicaid_raw, get_state_enrollment_growth, get_call_center_trend, get_operational_performance
 from .components import navbar
 
 
@@ -16,237 +17,211 @@ def create_healthcare_app(server):
     )
     def style_figure(fig):
           fig.update_layout(
-               legend = dict(
-                    orientation = 'h',
-                    y=1.02,
+               plot_bgcolor = "#D9DDDC",
+               paper_bgcolor = 'white',
+               font=dict(color='black'),
+               title=dict(
                     x=0.5,
                     xanchor = 'center',
-                    yanchor = 'bottom'
+                    y=0.95,
+                    yanchor='top'
                ),
-               margin = dict(t=80),
+               legend=dict(
+                    font=dict(color='black'),
+                    title_font=dict(color='black'),
+                    orientation ='h',
+                    yanchor = 'bottom',
+                    y = 0.20,
+                    xanchor = 'center',
+                    x = 0.5
+               ),
+               margin=dict(l=20, r=20, t=50, b=40),
                autosize = True
           )
           return fig
-    con = get_connection_health()
     
-    df_init = con.execute(
-     """ 
-     SELECT DISTINCT Provider_ID,
-               Insurance_Type,
-               Patient_Gender,
-               Claim_Submission_Date,
-               Fraud_Category
-     FROM healthcare_fraud_v
-     """
-     ).df()
-    
-    con.close()
-    
-    providers = df_init['Provider_ID'].unique()
-    insurances = df_init['Insurance_Type'].unique()
-    genders = df_init['Patient_Gender'].unique()
-    frauds = df_init['Fraud_Category'].unique()
-    min_date = df_init['Claim_Submission_Date'].min()
-    max_date = df_init['Claim_Submission_Date'].max()
+    global_dataset = get_medicaid_raw()
+    states = global_dataset['state_name'].unique()
+    min_date = global_dataset['reporting_date'].min()
+    max_date = global_dataset['reporting_date'].max()
 
     dash_app.layout = html.Div([
          navbar(),
 
-         html.H1('HealthCare Dashboard',
+         html.H1('Centers for Medicare & Medicaid Services',
                style={
                     'textAlign':'center',
                     'marginBottom':'30px',
                     'padding':'30px'
                     }),
-     html.Div([
-          dcc.Dropdown(
-               id = 'provider-dropdown',
-               options = [{'label': f'{p}', 'value':p} for p in providers],
-               multi = True, 
-               value = providers
+          html.Div([
+               #Global filter component
+               dcc.Dropdown(
+                    id = 'state-filter',
+                    options=[{
+                         'label': f'{i}',
+                         'value': i
+                    } for i in states]
                ),
-          dcc.Dropdown(
-               id = 'insurance-dropdown', 
-               options = [{'label': f'{i}','value':i} for i in insurances],
-               value = insurances,
-               multi = True
-               ),
-          dcc.DatePickerRange(
-               id = 'date-range',
-               min_date_allowed= min_date,
-               max_date_allowed= max_date,
-               start_date = min_date,
-               end_date = max_date
-               ),
-          dcc.Dropdown(
-               id = 'gender-dropdown',
-               options = [{'label': f'{g}', 'value':g} for g in genders],
-               value = genders,
-               multi = True
-               ),
-          dcc.Dropdown(
-               id = 'fraud-dropdown',
-               options = [{'label':f'{f}', 'value':f} for f in frauds],
-               value = frauds,
-               multi = True
-               )
-     ], style={
-          "display":'flex',
-          "gap":'20px',
-          "alignItems":'center',
-          "justifyContent":'center',
-          'marginBottom':'30px'
-     }),
-     html.Div([
-          html.Div(id='kpi-total-claim-amount'),
-          html.Div(id='kpi-total-approved-amount'),
-          html.Div(id = 'kpi-avg-los')
-     ], style={
-          'display': 'flex',
-          'justifyContent':'center',
-          'gap':'20px',
-          'marginBottom': '30px',
-          'maxWidth':'1200px',
-          'marginLeft':'auto',
-          'marginRight':'auto',
-          "flexWrap":'wrap' 
-     }),
-     html.Div([
-          dcc.Graph('line-chart-health',
-               style={'width':'100%', 'height':'40vh', "flex":'1 1 500px', 'minwidth':'300px'},
-               config = {'responsive':True})
-     ]),
-     html.Div([
-          dcc.Graph(
-               id = 'insurance-bar',
-               style = {"flex":'1', "minwidth":0},
-               config={'responsive':True}
-               ),
-          dcc.Graph(
-               id = 'provider-bar',
-               style ={'flex':'1', 'minwidth':0},
-               config={'responsive':True}
-               ),
-     ], style = {
-          'display':'flex',
-          "gap":'20px',
-          "marginBottom":'30px',
-          "width":'100%',
-          'height':'40vh',
-          "flexWrap":'wrap'
-     }),
-     html.Div([
-          dcc.Graph(id = 'visit-pie',
-                    style = {"flex":'1', "minwidth":0},
-                    config={'responsive':True}
+               dcc.DatePickerRange(
+                    id = 'date-filter',
+                    start_date= min_date,
+                    end_date = max_date,
+                    style={'width':'300px'}
                     ),
-          dcc.Graph(id='state-map',
-                    style = {"flex":'1', "minwidth":0},
-                    config={'responsive':True}
-                    )
-     ], style = {
-          'display':'flex',
-          "gap":'10px',
-          "marginBottom":'30px',
-          "width":'100%',
-          "height":'40vh',
-          "flexWrap":'wrap'
-     })
-     #dash_table.DataTable(id='summary-table')
-     ])
-    
+               ],
+               style = {
+                    'width':'100%',
+                    'display':'flex',
+                    'gap': '20px',
+                    'alignItems':'center',
+                    'justifyContent':'center',
+                    'margin': '0 auto 30px auto',
+               }
+          ),
+          dcc.Store(
+               id = 'global-filters',
+               storage_type='memory'
+          ),
+          dcc.Graph(id='enrollment-trendline'),
+          dcc.Graph(id='growth-bar'),
+          dcc.Graph(id='call-line'),
+          html.Div([
+               html.H3(
+                    'Operational Summary',
+                    style={'textAlign':'center','marginBottom':'10px'}
+               ),
+               html.Button(
+                    'Downlaod CSV',
+                    id = 'download-operational.csv',
+                    n_clicks=0
+               ),
+               dag.AgGrid(
+                    id='operational-table',
+                    rowData=[],
+                    columnDefs=[],
+                    style={'height':'500px'},
+               ),
+          ]), 
+    ])
+
     @dash_app.callback(
-     Output('kpi-total-claim-amount', 'children'),
-     Output('kpi-total-approved-amount', 'children'),
-     Output('kpi-avg-los', 'children'),
-     Output('line-chart-health','figure'),
-     Output('insurance-bar','figure'),
-     Output('provider-bar','figure'),
-     Output('visit-pie','figure'),
-     Output('state-map', 'figure'),
-     Input('provider-dropdown','value'),
-     Input('insurance-dropdown', 'value'),
-     Input('date-range','start_date'),
-     Input('date-range', 'end_date'),
-     Input('gender-dropdown','value'),
-     Input('fraud-dropdown', 'value')
-     )
+              Output('global-filters','data'),
+              Input('state-filter','value'),
+              Input('date-filter','start_date'),
+              Input('date-filter', 'end-date')
+    )
     
-    def update_healthcare_graph(providers, insurances, start_date, end_date, genders, frauds):
-     con = get_connection_health() 
-     query = """
-               SELECT * 
-               FROM healthcare_fraud_v
-               WHERE 1=1
-               """
-     params = []
+    def update_global_filters(state, start_date, end_date):
+         return{
+              'state':state,
+              'start_date': start_date,
+              'end_date': 'end_date'
+         }
+    @dash_app.callback(
+         Output('operational-table','exportDataCsv'),
+         Input('download-operational-csv', 'n_clicks'),
+         prevent_initial_table = True
+    )
 
-     if providers:
-               if isinstance(providers,str):
-                    providers = [providers]
-               query += f" AND Provider_ID IN ({','.join(['?'] * len(providers))})"
-               params.extend(providers)     
+    def download_operational_table(n_clicks):
+         return True
 
-     if insurances:
-          query += f" AND Insurance_Type IN ({','.join(['?'] * len(insurances))})"
-          params.extend(insurances)
+    @dash_app.callback(
+         Output('enrollment-trendline', 'figure'),
+         Output('growth-bar','figure'),
+         Output('call-line','figure'),
+         Output('operational-table', 'rowData'),
+         Output('operational-table', 'columnDefs'),
+         Input('global-filters', 'data')
+    )
 
-     if genders:
-          query += f" AND Patient_Gender IN ({','.join(['?'] * len(genders))})"
-          params.extend(genders)
+    def update_figures(filters):
+         if filters is None:
+              filters = {
+                   'state': states.tolist(),
+                   'start_date': min_date.isoformat(),
+                   'end_date': max_date.isoformat(),
+              }
+              enrollment_df = get_enrollment_trend(filters)
+              # ensure reporting_date is datetime
+              enrollment_df['reporting_date'] = pd.to_datetime(enrollment_df['reporting_date'])
+              value_vars = [
+                   "total_medicaid_chip_enrollment",
+                   "total_medicaid_enrollment",
+                   "total_chip_enrollment"
+              ]
 
-     if frauds:
-          query += f" AND Fraud_Category IN ({','.join(['?'] * len(frauds))})"
-          params.extend(frauds)    
+              if 'state_name' is enrollment_df.columns:
+                   #build traces per (metric,state) in order to toogle metrics with dropdown
+                   states_list = sorted(enrollment_df['state_name'].dropna().unique())
+                   default_metric = 'total_medicaid_chip_enrollment' # place the defaul metric
+                   traces = []
+                   for metric in value_vars:
+                        for state in states_list:
+                             df_s = enrollment_df[enrollment_df['state_name'] == state].sort_values('reporting_date')
+                             traces.append(
+                                  go.Scatter(
+                                       x=df_s['reporting_date'],
+                                       y=df_s[metric],
+                                       mode='lines+markers',
+                                       name=state,
+                                       legendgroup=state,
+                                       visible={metric == default_metric},
+                                  )
+                             )
+                             medicaid_enr_fig = go.Figure(data=traces)
 
-     if start_date and end_date:
-          query += " AND Claim_Submission_Date BETWEEN ? and ?"
-          params.extend([start_date, end_date])
+                             #create drowdown button to toggle which metric is visible
+                             buttons = []
+                             for metric in value_vars:
+                                  vis = []
+                                  for m in value_vars:
+                                       # for each metric, e have len(states_list) traces
+                                       vis.extend([m == metric] * len(states_list))
+                                       buttons.appen(
+                                            dict(
+                                                 label = metric,
+                                                 method = 'update',
+                                                 args=[
+                                                      {'visible':vis},
+                                                      {'title': f'<b>Medicaid and CHIP Enrollment Trend ({metric}</b>)'}
+                                                 ]
+                                            )
+                                       )
 
-     print(query)
-     print("Total placeholders:", query.count("?"))
-     print("Total params:", len(params))
+                                       medicaid_enr_fig.update_layout(
+                                            updatemenus=[
+                                                 dict(
+                                                      active=value_vars.index(default_metric),
+                                                      buttons=buttons,
+                                                      direction='down',
+                                                      x=0.0,
+                                                      xanchor = 'left',
+                                                      y=1.15,
+                                                      yanchor = 'top'
+                                                 )
+                                            ],
+                                            title={
+                                                 'text': f"<b>Medicaid and CHIP Enrollment Trend ({default_metric}</b>)"
+                                            }
+                                       )
+               else:
+                   # fallback to previous behavior if state_name not present   
+                   medicaid_enr_fig = px.line(
+                        enrollment_df,
+                        x = 'reporting_date',
+                        y=value_vars,
+                        markers=True,
+                        labels={
+                             'reporting_date': 'Reporting Date',
+                             'value': 'Enrollment',
+                             'variable': 'Program'
+                        },
+                        title = '<b>Medicaid and CHIP Enrollment Trend</b>'
+                   )  
 
-     df = con.execute(query, params).df()
-     
-     con.close()
-
-     if df.empty:
-          empty_fig = px.line(title="No Data")
-          return "", "", "", empty_fig, empty_fig, empty_fig, empty_fig, empty_fig
-
-     # KPIs
-     total_claims_amount = df['Claim_Amount'].sum()
-     total_approved_amount = df['Approved_Amount'].sum()
-     avg_los = df['Length_of_Stay'].mean()
-
-     # line chart
-     df_grouped = df.groupby(['Claim_Submission_Date'])[['Claim_Amount','Approved_Amount']].sum().reset_index()
-     line_fig = px.line(df_grouped, x = 'Claim_Submission_Date', y = ['Approved_Amount','Claim_Amount']) 
-
-     # insurance type bar +  provider specialty bar
-     insurance_df = df.groupby(['Insurance_Type'])[['Claim_Amount','Approved_Amount']].sum().reset_index()
-     insurance_bar = px.bar(insurance_df, x = 'Insurance_Type', y = ['Claim_Amount', 'Approved_Amount'], opacity=0.9, orientation='v', barmode = 'group')
-     provider_df = df.groupby(['Provider_Specialty'])[['Claim_Amount','Approved_Amount']].sum().reset_index()
-     provider_bar = px.bar(provider_df, x = 'Provider_Specialty', y = ['Claim_Amount', 'Approved_Amount'], opacity=0.9, orientation='v', barmode = 'group')
-
-     #pie 
-     visit_df = df.groupby(['Visit_Type'])['Provider_ID'].count().reset_index()
-     visit_pie = px.pie(visit_df, names='Visit_Type', values = 'Provider_ID')
-
-     # map
-     mapped_grouped = df.groupby(['Patient_State'])['Approved_Amount'].sum().reset_index()
-     approved_mapped = px.choropleth(mapped_grouped, locations= 'Patient_State', locationmode='USA-states', scope='usa', color ='Approved_Amount')
-
-     
-     return(
-               html.Div([html.P("Total Claim Amount"),html.H2(f"${total_claims_amount:,.0f}")]),
-               html.Div([html.P("Total Approved Amount"), html.H2(f"${total_approved_amount:,.0f}")]),
-               html.Div([html.P("Avg Los"), html.H2(f"{avg_los:,.2f}")]),
-               style_figure(line_fig), 
-               style_figure(insurance_bar), 
-               style_figure(provider_bar), 
-               style_figure(visit_pie), 
-               style_figure(approved_mapped)
+               return(
+                    style_figure(medicaid_enr_fig)
                )
     return dash_app
