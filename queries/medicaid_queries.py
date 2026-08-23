@@ -186,12 +186,11 @@ def get_call_center_trend(filters):
             if set(states) == set(available_states):
                 query += """
                 AND state_name IN (
-                    SELECT 
-                        state_name,
+                    SELECT  state_name
                     FROM medicaid_final 
                     WHERE reporting_date BETWEEN ? AND ? 
                     GROUP BY state_name 
-                    ORDER BY max(total_call_center_volume_number_of_calls) DEC
+                    ORDER BY max(total_call_center_volume_number_of_calls) DESC
                     LIMIT 10
                     )
                 """
@@ -208,7 +207,7 @@ def get_call_center_trend(filters):
 
         params += """
         AND reporting_date BETWEEN ? AND ?
-        GROUP BY reporting_date, state_name 
+        GROUP BY date_trunc('month', reporting_date), state_name 
         ORDER BY reporting_date, state_name
         """
 
