@@ -216,6 +216,14 @@ def get_call_center_trend(filters):
             filters['end_date']
         ])
 
+
+
+        print("\n--- CALL CENTER DEBUG ---")
+        print("Number of states:", len(states))
+        print("Number of ? placeholders:", query.count("?"))
+        print("Number of params:", len(params))
+        print("First 5 params:", params[:5])
+
         return con.execute(query,params).df()
     finally:
         con.close()
