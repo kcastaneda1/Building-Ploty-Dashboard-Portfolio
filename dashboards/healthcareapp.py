@@ -155,7 +155,7 @@ def create_healthcare_app(server):
                "total_chip_enrollment"
           ]
 
-          if 'state_name' is enrollment_df.columns:
+          if 'state_name' in enrollment_df.columns:
                states_list = sorted(enrollment_df['state_name'].dropna().unique())
                default_metric = 'total_medicaid_chip_enrollment'
                traces = []
