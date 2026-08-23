@@ -61,7 +61,10 @@ def create_healthcare_app(server):
                     options=[{
                          'label': f'{i}',
                          'value': i
-                    } for i in states]
+                    } for i in states],
+                    multi=True,
+                    value=states,
+                    style={'width':'300px'}
                ),
                dcc.DatePickerRange(
                     id = 'date-filter',
