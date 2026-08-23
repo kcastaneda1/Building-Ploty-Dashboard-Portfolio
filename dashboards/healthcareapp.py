@@ -31,7 +31,7 @@ def create_healthcare_app(server):
                     title_font=dict(color='black'),
                     orientation ='h',
                     yanchor = 'bottom',
-                    y = 0.20,
+                    y = -0.20,
                     xanchor = 'center',
                     x = 0.5
                ),
