@@ -158,6 +158,10 @@ def create_healthcare_app(server):
           if 'state_name' in enrollment_df.columns:
                states_list = sorted(enrollment_df['state_name'].dropna().unique())
                default_metric = 'total_medicaid_chip_enrollment'
+               state_colors = {
+                    state: px.colors.qualitative.Plotly[index % len(px.colors.qualitative.Plotly)]
+                    for index, state in enumerate(states_list)
+               }
                traces = []
                for metric in value_vars:
                     for state in states_list:
@@ -169,7 +173,8 @@ def create_healthcare_app(server):
                                    mode='lines+markers',
                                    name=state,
                                    legendgroup=state,
-                                   visible={metric == default_metric},
+                                   line={'color': state_colors[state]},
+                                   visible=(metric == default_metric),
                               )
                          )
 
@@ -185,7 +190,7 @@ def create_healthcare_app(server):
                               method='update',
                               args=[
                                    {'visible': vis},
-                                   {'title': f'<b>Medicaid and CHIP Enrollment Trend ({metric}</b>)'}
+                                   {'title': f'<b>Medicaid and CHIP Enrollment Trend ({metric})</b>'}
                               ]
                          )
                     )
@@ -203,7 +208,7 @@ def create_healthcare_app(server):
                          )
                     ],
                     title={
-                         'text': f"<b>Medicaid and CHIP Enrollment Trend ({default_metric}</b>)"
+                         'text': f"<b>Medicaid and CHIP Enrollment Trend ({default_metric})</b>"
                     }
                )
           else:
